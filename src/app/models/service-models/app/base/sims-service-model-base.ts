@@ -1,4 +1,4 @@
-import { ServiceModelRoot } from '../../foundation/service-model-root';
+import { SModelRoot } from "../../foundation/service-model-root";
 
-export class simsServiceModelBase<T> extends ServiceModelRoot<T> {
+export class SIMSServiceModelBase<T> extends SModelRoot<T> {
 }

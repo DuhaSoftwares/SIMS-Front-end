@@ -1,6 +1,6 @@
-import { simsServiceModelBase } from '../../../base/sims-service-model-base';
+import { SIMSServiceModelBase } from "../../../base/sims-service-model-base";
 
-export class SignUpSM extends simsServiceModelBase<number> {
+export class SignUpSM extends SIMSServiceModelBase<number> {
     loginId!: string;
     firstName!: string;
     lastName!: string;

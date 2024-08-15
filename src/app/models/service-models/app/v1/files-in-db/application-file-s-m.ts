@@ -1,6 +1,7 @@
-import { simsServiceModelBase } from '../../base/sims-service-model-base';
+import { SIMSServiceModelBase } from "../../base/sims-service-model-base";
 
-export class ApplicationFileSM extends simsServiceModelBase<number> {
+
+export class ApplicationFileSM extends SIMSServiceModelBase<number> {
     fileName!: string;
     fileType!: string;
     fileDescription!: string;

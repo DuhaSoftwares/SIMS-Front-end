@@ -1,6 +1,6 @@
-import { simsServiceModelBase } from '../../base/sims-service-model-base';
+import { SIMSServiceModelBase } from '../../base/sims-service-model-base';
 
-export class ClientUserAddressSM extends simsServiceModelBase<number> {
+export class ClientUserAddressSM extends SIMSServiceModelBase<number> {
     country!: string;
     state!: string;
     city!: string;
