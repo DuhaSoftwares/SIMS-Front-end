@@ -3,7 +3,7 @@ export const environment = {
   apiResponseCacheTimeoutInMinutes: 5,
   enableResponseCacheProcessing: true,
   applicationVersion: '0.0.1',
-  apiBaseUrl: 'http://reg-farm2i.renosoftwares.com/',
+  apiBaseUrl: 'http://thelightapi.com/',
   apiDefaultTimeout: 10,
   LoggingInfo: {
     cacheLogs: false,
