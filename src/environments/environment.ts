@@ -8,8 +8,8 @@ export const environment = {
   apiResponseCacheTimeoutInMinutes: 5,
   enableResponseCacheProcessing: true,
   applicationVersion: '0.0.1',
-  apiBaseUrl: 'http://localhost:3000/',
-  // apiBaseUrl: 'https://sims-server-i10i.onrender.com/',
+  // apiBaseUrl: 'http://localhost:3000/',
+  apiBaseUrl: 'http://thelightapi.com/',
   apiDefaultTimeout: 10,
   LoggingInfo: {
     cacheLogs: true,

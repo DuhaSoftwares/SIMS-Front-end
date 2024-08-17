@@ -9,7 +9,7 @@ export const AppConstants =
         ACCOUNT_URL: 'api/v1',
         DUMMY_TEACHER_URL: 'api/v1/DummyTeacher',
         DUMMY_STUDENT_URL: 'api/token',
-        AUTH_URL:"app/v1/auth",
+        AUTH_URL:"api/Token/",
         SQL_REPORT:"api/v1/SqlReport",
         CROP_URL:"api/v1/Crop",
         FARM_URL:"api/v1/Farm"

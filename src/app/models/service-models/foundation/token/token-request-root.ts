@@ -1,5 +1,5 @@
 export class TokenRequestRoot {
-    username!: string;
+    loginId!: string;
     email!: string;
     passwordHash!: string;
 }

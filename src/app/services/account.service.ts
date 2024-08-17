@@ -27,7 +27,7 @@ export class AccountService extends BaseService {
  * @returns  Token
  */
   async generateToken(tokenReq: TokenRequestSM, rememberUser: boolean): Promise<ApiResponse<TokenResponseSM>> {
-    if (!tokenReq || !tokenReq.username)// null checks
+    if (!tokenReq || !tokenReq.loginId)// null checks
     {
       throw new Error(AppConstants.ERROR_PROMPTS.Invalid_Input_Data);
     }

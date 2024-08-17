@@ -15,22 +15,22 @@
                         Don’t have an account yet? <a routerLink="/authentication/sign-up" class="text-daxa">Sign Up</a>
                     </p>
                 </div>
-                <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="viewModel.authForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                         <label class="main-label d-block lh-1 text-black">
-                            username
+                            loginId
                         </label>
                         <mat-form-field>
                             <mat-label>
-                                Enter username
+                                Enter loginId
                             </mat-label>
-                            <input matInput type="text" id="username" formControlName="username">
+                            <input matInput type="text" id="loginId" formControlName="loginId">
                         </mat-form-field>
-                        <div class="error text-danger" *ngIf="authForm.get('username')!.hasError('required') && authForm.get('username')!.touched">
-                            username is required.
+                        <div class="error text-danger" *ngIf="viewModel.authForm.get('loginId')!.hasError('required') && viewModel.authForm.get('loginId')!.touched">
+                            loginId is required.
                         </div>
-                        <div class="error text-danger" *ngIf="authForm.get('username')!.hasError('username') && authForm.get('username')!.touched">
-                            Please enter a valid username .
+                        <div class="error text-danger" *ngIf="viewModel.authForm.get('loginId')!.hasError('loginId') && viewModel.authForm.get('loginId')!.touched">
+                            Please enter a valid loginId .
                         </div>
                     </div>
                     <div class="form-group">
@@ -41,29 +41,29 @@
                             <mat-label>
                                 Enter your password
                             </mat-label>
-                            <input matInput [type]="hide ? 'password' : 'text'" id="password" formControlName="passwordHash">
-                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide passwordHash'" [attr.aria-pressed]="hide">
+                            <input matInput [type]="viewModel.hide ? 'password' : 'text'" id="password" formControlName="password">
+                            <button mat-icon-button matSuffix (click)="viewModel.hide = !viewModel.hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="viewModel.hide">
                                 <span class="material-symbols-outlined">
-                                    {{hide ? 'visibility_off' : 'visibility'}}
+                                    {{viewModel.hide ? 'visibility_off' : 'visibility'}}
                                 </span>
                             </button>
                         </mat-form-field>
-                        <div class="error text-danger" *ngIf="authForm.get('passwordHash')!.hasError('required') && authForm.get('passwordHash')!.touched">
+                        <div class="error text-danger" *ngIf="viewModel.authForm.get('password')!.hasError('required') && viewModel.authForm.get('password')!.touched">
                             Password is required.
                         </div>
-                        <div class="error text-danger" *ngIf="authForm.get('passwordHash')!.hasError('minlength') && authForm.get('passwordHash')!.touched">
+                        <div class="error text-danger" *ngIf="viewModel.authForm.get('password')!.hasError('minlength') && viewModel.authForm.get('password')!.touched">
                             Password must be at least 8 characters long.
                         </div>
                     </div>
                     <div class="info d-flex justify-content-between align-items-center">
-                        <mat-checkbox>
+                        <mat-checkbox [(ngModel)]="viewModel.rememberMe">
                             Remember me
                         </mat-checkbox>
                         <a routerLink="/authentication/forgot-password" class="d-inline-block text-daxa">
                             Forgot Password?
                         </a>
                     </div>
-                    <button mat-button class="btn" type="submit" [disabled]="authForm.invalid">
+                    <button mat-button class="btn" type="submit" [disabled]="viewModel.authForm.invalid">
                         Sign In
                     </button>
                     <div class="signin-with-socials text-center">
