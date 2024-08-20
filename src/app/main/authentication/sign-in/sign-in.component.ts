@@ -47,27 +47,44 @@ export class SignInComponent extends BaseComponent<LoginViewModel> implements On
             this.viewModel.isToggled = isToggled;
         });
     }
-    // Password Hide
 
-  async   onSubmit() {
-        if (this.viewModel.authForm.valid) {
-            this.viewModel.userLogin=this.viewModel.authForm.value;
-        } else {
-            console.log('Form is invalid. Please check the fields.');
-        }
-        try {
-           let resp= await this.accountService.generateToken(this.viewModel.userLogin,this.viewModel.rememberMe)
-           if(resp.isError){
-             this._exceptionHandler.handleError(resp.errorData);
-             return;  // Return if error occurred. Else, the next line will be executed.
-           }
-        //    console.log(resp.successData);
-            this.router.navigate(['/dashboard']);
-
-        } catch (error) {
-            
-        }
+    rememberMeValue(){
+       this.viewModel.rememberMe=true
     }
+    // Password Hide
+    async onSubmit() {
+        try {
+            if (this.viewModel.authForm.valid) {
+                this.viewModel.userLogin=this.viewModel.authForm.value;
+            } else {
+                this._commonService.showSweetAlertToast({
+                    title: 'Error!',
+                    text: 'Form is invalid. Please check the fields.',
+                    position: "top-end",
+                    icon: "error"
+                  });
+            }
+          await this._commonService.presentLoading();
+          this.viewModel.rememberMe
+          let resp= await this.accountService.generateToken(this.viewModel.userLogin,this.viewModel.rememberMe)
+          if (resp.isError) {
+            await this._exceptionHandler.logObject(resp);
+            this._commonService.showSweetAlertToast({
+              title: 'Error!',
+              text: resp.errorData.displayMessage,
+              position: "top-end",
+              icon: "error"
+            });
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
+        } catch (error) {
+          throw error;
+        } finally {
+          await this._commonService.dismissLoader();
+        }
+      }
+
 
     // Dark Mode
     toggleTheme() {
