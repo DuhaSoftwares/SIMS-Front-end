@@ -34,7 +34,6 @@ export class AccountService extends BaseService {
     else {
       let apiRequest = new ApiRequest<TokenRequestSM>();
       apiRequest.reqData = tokenReq;
-      console.log(apiRequest)
       let resp =await this.accountClient.GenerateToken(apiRequest);
       // let resp = this.getDummyTokenResp(tokenReq);
       if (!resp.isError && resp.successData != null) {

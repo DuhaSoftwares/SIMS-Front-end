@@ -7,6 +7,6 @@ export class LoginViewModel extends BaseViewModel{
    userLogin:TokenRequestSM= new TokenRequestSM();
    hide = true;
     authForm!: FormGroup;
-    rememberMe!:boolean;
+    rememberMe:boolean=false;
     isToggled = false;
 }

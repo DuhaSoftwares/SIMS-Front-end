@@ -10,6 +10,9 @@ import { LockScreenComponent } from './main/authentication/lock-screen/lock-scre
 import { ConfirmEmailComponent } from './main/authentication/confirm-email/confirm-email.component';
 import { LogoutComponent } from './main/authentication/logout/logout.component';
 import { NotFoundComponent } from './internal-components/not-found/not-found.component';
+import { AuthGuard } from './guard/auth.guard';
+import { RoleTypeSM } from './models/service-models/app/enums/role-type-s-m.enum';
+import { WarehouseComponent } from './main/warehouse/warehouse.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'authentication', pathMatch: 'full' },
@@ -26,14 +29,26 @@ export const routes: Routes = [
         {path: 'logout', component: LogoutComponent}
     ]
 },
-  {path:'dashboard',component:DashboardComponent},
+  {path:'dashboard',component:DashboardComponent, canActivate: [AuthGuard],
+       data: {
+      allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+    },
+  },
+  {path:'warehouse',component:WarehouseComponent, canActivate: [AuthGuard],
+    data: {
+   allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+ },
+},
   {path: '**', component: NotFoundComponent}
   // {
-  //   path: 'dashboard',
+  //   path: "dashboard",
   //   component: DashboardComponent,
   //   canActivate: [AuthGuard],
   //   data: {
-  //     allowedRole: [RoleTypeSM.Farmer],
+  //     allowedRole: [RoleTypeSM.ClientAdmin, RoleTypeSM.ClientEmployee],
+  //     moduleName: ModuleNameSM.DashBoard,
+  //     permissionType: [PermissionType.view]
+
   //   },
   // },
 
