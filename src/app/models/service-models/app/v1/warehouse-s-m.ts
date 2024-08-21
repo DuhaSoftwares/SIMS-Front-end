@@ -11,5 +11,4 @@ export class WareHouseSM extends SIMSServiceModelBase<number>{
     capacity!: number;              // Capacity of the warehouse
     isActive!: boolean;             // Whether the warehouse is active or not
     clientCompanyDetailId?: number; // Foreign key to the ClientCompanyDetail, nullable
-
 }
