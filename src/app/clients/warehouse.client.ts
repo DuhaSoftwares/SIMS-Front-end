@@ -26,8 +26,19 @@ export class WarehouseClient extends BaseApiClient {
   /**Get all Warehouses */
   GetAllWarehouses = async (): Promise<ApiResponse<WareHouseSM[]>> => {
     let resp = await this.GetResponseAsync<number, WareHouseSM[]>(
-      `${AppConstants.API_ENDPOINTS.WAREHOUSE}`,
+      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/my`,
       'GET'
+    );
+    return resp;
+  };
+
+  /**delete teacher by id */
+  DeleteWarehouseById = async (
+    Id: number
+  ): Promise<ApiResponse<DeleteResponseRoot>> => {
+    let resp = await this.GetResponseAsync<number, DeleteResponseRoot>(
+      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/${Id}`,
+      'DELETE'
     );
     return resp;
   };

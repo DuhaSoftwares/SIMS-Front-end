@@ -63,6 +63,9 @@ export class WarehouseComponent
   }
 
   async getWareHouses() {
+    /**
+     * Retrieves all warehouses from the server and updates the component's view model.
+     */
     try {
       let resp = await this.warehouseService.getAllWarehouses();
       if (resp.isError) {
@@ -74,6 +77,39 @@ export class WarehouseComponent
         this.viewModel.warehouses = resp.successData;
         console.log(this.viewModel.warehouses);
       }
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteWareHouseById(id: number) {
+    try {
+      const result = await this.commonService.showSweetAlertConfirmation({
+        text: 'Are you sure you want to delete this warehouse?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+      });
+
+      if (result.isConfirmed) {
+        const resp = await this.warehouseService.deleteWarehouse(id);
+
+        if (resp.isError) {
+          await this.commonService.showSweetAlertConfirmation({
+            text: 'Sorry, we ran into an error!',
+            icon: 'error',
+          });
+        } else {
+          await this.getWareHouses();
+          await this.commonService.showSweetAlertConfirmation({
+            text: 'Deleted successfully!',
+            icon: 'success',
+          });
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 }
