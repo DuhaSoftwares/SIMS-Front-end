@@ -9,26 +9,25 @@ import { ApiRequest } from '../models/service-models/foundation/api-contracts/ba
 import { RoleTypeSM } from '../models/service-models/app/enums/role-type-s-m.enum';
 import { AppConstants } from '../app-constants';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SampleService extends BaseService {
-
   constructor(private accountClient: AccountsClient) {
     super();
   }
 
-  async generateToken(tokenReq: TokenRequestSM): Promise<ApiResponse<TokenResponseSM>> {
-    if (tokenReq == null || tokenReq.loginId == null)// null checks
-    {
+  async generateToken(
+    tokenReq: TokenRequestSM
+  ): Promise<ApiResponse<TokenResponseSM>> {
+    if (tokenReq == null || tokenReq.loginId == null) {
+      // null checks
       throw new Error(AppConstants.ERROR_PROMPTS.Invalid_Input_Data);
-    }
-    else {
+    } else {
       let apiRequest = new ApiRequest<TokenRequestSM>();
       // tokenReq.companyCode = '123';
-      tokenReq.roleType = RoleTypeSM.Farmer;
-      apiRequest.reqData = tokenReq
+      tokenReq.roleType = RoleTypeSM.CompanyAdmin;
+      apiRequest.reqData = tokenReq;
       return await this.accountClient.GenerateToken(apiRequest);
     }
   }

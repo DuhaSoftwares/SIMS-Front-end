@@ -1,37 +1,79 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CustomizerSettingsService } from '../../internal-components/customizer-settings/customizer-settings.service';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { WarehouseService } from '../../services/warehouse.service';
+import { CommonService } from '../../services/common.service';
+import { BaseComponent } from '../../internal-components/other-components/base.component';
+import { LogHandlerService } from '../../services/log-handler.service';
+import { WarehouseViewModel } from '../../models/view/end-user/warehouse.viewmodel';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-warehouse',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatMenuModule, MatTooltipModule],
+  imports: [
+    RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatTooltipModule,
+    FormsModule,
+    CommonModule,
+  ],
   templateUrl: './warehouse.component.html',
-  styleUrl: './warehouse.component.scss'
+  styleUrl: './warehouse.component.scss',
 })
-export class WarehouseComponent {
+export class WarehouseComponent
+  extends BaseComponent<WarehouseViewModel>
+  implements OnInit
+{
   constructor(
-    public themeService: CustomizerSettingsService
-) {
-    this.themeService.isToggled$.subscribe(isToggled => {
-        this.isToggled = isToggled;
+    public themeService: CustomizerSettingsService,
+    private warehouseService: WarehouseService,
+    private commonService: CommonService,
+    private logHandlerService: LogHandlerService
+  ) {
+    super(commonService, logHandlerService);
+
+    this.themeService.isToggled$.subscribe((isToggled) => {
+      this.isToggled = isToggled;
     });
-}
+    this.viewModel = new WarehouseViewModel();
+  }
 
-// isToggled
-isToggled = false;
+  ngOnInit(): void {
+    this.getWareHouses();
+  }
+  // isToggled
+  isToggled = false;
 
-// Dark Mode
-toggleTheme() {
+  // Dark Mode
+  toggleTheme() {
     this.themeService.toggleTheme();
-}
+  }
 
-// RTL Mode
-toggleRTLEnabledTheme() {
+  // RTL Mode
+  toggleRTLEnabledTheme() {
     this.themeService.toggleRTLEnabledTheme();
-}
+  }
+
+  async getWareHouses() {
+    try {
+      let resp = await this.warehouseService.getAllWarehouses();
+      if (resp.isError) {
+        this.commonService.showSweetAlertConfirmation({
+          text: 'Sorry we Ran into an error!',
+          icon: 'error',
+        });
+      } else {
+        this.viewModel.warehouses = resp.successData;
+        console.log(this.viewModel.warehouses);
+      }
+    } catch (error) {}
+  }
 }
