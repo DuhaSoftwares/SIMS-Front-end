@@ -1,9 +1,16 @@
+import { FormGroup } from '@angular/forms';
 import { BaseViewModel } from '../../internal/base.viewmodel';
 import { WareHouseSM } from '../../service-models/app/v1/warehouse-s-m';
 
 export class WarehouseViewModel extends BaseViewModel {
   warehouses: WareHouseSM[] = [];
+  displayStyle: string = 'none';
+  AddEditWarehouseModalTitle: string = '';
+  warehouse = new WareHouseSM();
+  warehouseForm!: FormGroup;
+  storageTypes: { key: string; value: number }[] = [];
 
+  isToggled = false;
   //   farmFormValidations = {
 
   //     farmName: [

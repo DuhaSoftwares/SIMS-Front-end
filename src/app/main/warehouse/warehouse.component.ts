@@ -10,8 +10,17 @@ import { CommonService } from '../../services/common.service';
 import { BaseComponent } from '../../internal-components/other-components/base.component';
 import { LogHandlerService } from '../../services/log-handler.service';
 import { WarehouseViewModel } from '../../models/view/end-user/warehouse.viewmodel';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { WareHouseSM } from '../../models/service-models/app/v1/warehouse-s-m';
+import { async } from 'rxjs';
+import { StorageTypeSM } from '../../models/service-models/app/enums/warehouse-storage-type-s-m.enum';
 
 @Component({
   selector: 'app-warehouse',
@@ -24,6 +33,7 @@ import { CommonModule } from '@angular/common';
     MatTooltipModule,
     FormsModule,
     CommonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './warehouse.component.html',
   styleUrl: './warehouse.component.scss',
@@ -34,23 +44,30 @@ export class WarehouseComponent
 {
   constructor(
     public themeService: CustomizerSettingsService,
+    private fb: FormBuilder,
     private warehouseService: WarehouseService,
     private commonService: CommonService,
     private logHandlerService: LogHandlerService
   ) {
     super(commonService, logHandlerService);
-
-    this.themeService.isToggled$.subscribe((isToggled) => {
-      this.isToggled = isToggled;
-    });
+    // viewmodel
     this.viewModel = new WarehouseViewModel();
+
+    // making storage types as key value pairs
+    this.viewModel.storageTypes = Object.entries(StorageTypeSM)
+      .filter(([key, value]) => typeof value === 'number')
+      .map(([key, value]) => ({ key, value: value as number }));
+
+    // theme toggle
+    this.themeService.isToggled$.subscribe((isToggled) => {
+      this.viewModel.isToggled = isToggled;
+    });
   }
 
-  ngOnInit(): void {
-    this.getWareHouses();
+  async ngOnInit() {
+    await this.getWareHouses();
+    this.createForm();
   }
-  // isToggled
-  isToggled = false;
 
   // Dark Mode
   toggleTheme() {
@@ -105,6 +122,118 @@ export class WarehouseComponent
             text: 'Deleted successfully!',
             icon: 'success',
           });
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getWarehouseById(id: number) {
+    try {
+      const resp = await this.warehouseService.getWarehouseById(id);
+      if (resp.isError) {
+        this.commonService.showSweetAlertConfirmation({
+          text: 'Sorry, we ran into an error!',
+          icon: 'error',
+        });
+      } else {
+        this.viewModel.warehouse = resp.successData;
+        this.viewModel.warehouseForm.patchValue({
+          name: this.viewModel.warehouse.name,
+          description: this.viewModel.warehouse.description,
+          location: this.viewModel.warehouse.location,
+          contactNumber: this.viewModel.warehouse.contactNumber,
+          emailId: this.viewModel.warehouse.emailId,
+          storageType: this.viewModel.warehouse.storageType.toString(), // Ensure it matches the select value
+          capacity: this.viewModel.warehouse.capacity,
+          isActive: this.viewModel.warehouse.isActive,
+          clientCompanyDetailId: this.viewModel.warehouse.clientCompanyDetailId,
+        });
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  createForm(): void {
+    this.viewModel.warehouseForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      location: ['', Validators.required],
+      contactNumber: ['', Validators.required],
+      emailId: ['', [Validators.required, Validators.email]],
+      storageType: ['', Validators.required],
+      capacity: ['', Validators.required],
+      isActive: [true],
+      clientCompanyDetailId: [null],
+    });
+  }
+  async openAddEditWarehouseModal(id: number) {
+    this.viewModel.displayStyle = 'block';
+    this.viewModel.AddEditWarehouseModalTitle =
+      id > 0 ? 'Update Warehouse' : 'Add Warehouse';
+    if (id > 0) {
+      await this.getWarehouseById(id);
+    }
+  }
+
+  closeAddEditWarehouseModal() {
+    this.viewModel.displayStyle = 'none';
+    this.viewModel.warehouseForm.reset();
+  }
+
+  onSubmit(): void {
+    // Handle form submission here
+    if (this.viewModel.warehouseForm.valid) {
+      let formData = this.viewModel.warehouseForm.value as WareHouseSM;
+      formData.storageType = +this.viewModel.warehouseForm.value.storageType;
+      this.addWarehouse(formData);
+    } else {
+      this.viewModel.warehouseForm.markAllAsTouched();
+    }
+  }
+  // adding warehouse
+  async addWarehouse(data: WareHouseSM) {
+    try {
+      if (data) {
+        let resp = await this.warehouseService.addWarehouse(data);
+        if (resp.isError) {
+          this._commonService.showSweetAlertConfirmation({
+            text: 'Sorry we ran into an error.',
+            icon: 'error',
+            title: 'Error',
+          });
+        } else {
+          await this.getWareHouses();
+          await this._commonService.showSweetAlertConfirmation({
+            text: 'Warehouse added successfully!',
+            icon: 'success',
+          });
+          this.closeAddEditWarehouseModal();
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async updateWarehouse(data: WareHouseSM) {
+    try {
+      if (data) {
+        let resp = await this.warehouseService.updateWarehouse(data);
+        if (resp.isError) {
+          this._commonService.showSweetAlertConfirmation({
+            text: 'Sorry we ran into an error.',
+            icon: 'error',
+            title: 'Error',
+          });
+        } else {
+          await this.getWareHouses();
+          await this._commonService.showSweetAlertConfirmation({
+            text: 'Warehouse Updated successfully!',
+            icon: 'success',
+          });
+          this.closeAddEditWarehouseModal();
         }
       }
     } catch (error) {

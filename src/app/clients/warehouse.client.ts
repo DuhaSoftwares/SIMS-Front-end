@@ -10,6 +10,10 @@ import { AppConstants } from '../app-constants';
 import { ApiRequest } from '../models/service-models/foundation/api-contracts/base/api-request';
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
 import { WareHouseSM } from '../models/service-models/app/v1/warehouse-s-m';
+import {
+  AdditionalRequestDetails,
+  Authentication,
+} from '../models/internal/additional-request-details';
 
 @Injectable({
   providedIn: 'root',
@@ -32,13 +36,42 @@ export class WarehouseClient extends BaseApiClient {
     return resp;
   };
 
-  /**delete teacher by id */
+  /**delete wareshouse by id */
   DeleteWarehouseById = async (
     Id: number
   ): Promise<ApiResponse<DeleteResponseRoot>> => {
     let resp = await this.GetResponseAsync<number, DeleteResponseRoot>(
       `${AppConstants.API_ENDPOINTS.WAREHOUSE}/${Id}`,
       'DELETE'
+    );
+    return resp;
+  };
+
+  GetWarehouseById = async (Id: number): Promise<ApiResponse<WareHouseSM>> => {
+    let resp = await this.GetResponseAsync<number, WareHouseSM>(
+      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/${Id}`,
+      'GET'
+    );
+    return resp;
+  };
+
+  AddWarehouse = async (
+    addWarehouse: ApiRequest<WareHouseSM>
+  ): Promise<ApiResponse<WareHouseSM>> => {
+    let resp = await this.GetResponseAsync<WareHouseSM, WareHouseSM>(
+      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/my`,
+      'POST',
+      addWarehouse
+    );
+    return resp;
+  };
+  UpdateWarehouse = async (
+    updateWarehouse: ApiRequest<WareHouseSM>
+  ): Promise<ApiResponse<WareHouseSM>> => {
+    let resp = await this.GetResponseAsync<WareHouseSM, WareHouseSM>(
+      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/my?warehouseId=${updateWarehouse.reqData.id}`,
+      'PUT',
+      updateWarehouse
     );
     return resp;
   };

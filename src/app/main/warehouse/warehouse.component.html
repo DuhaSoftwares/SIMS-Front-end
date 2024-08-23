@@ -23,7 +23,9 @@
       <h5 class="mt-0 mb-0">Warehouses</h5>
     </mat-card-title>
     <mat-card-subtitle>
-      <button class="mat-mdc-btn">Add Warehouse</button>
+      <button class="mat-mdc-btn" (click)="openAddEditWarehouseModal(0)">
+        Add Warehouse
+      </button>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
@@ -88,6 +90,7 @@
                     mat-button
                     matTooltip="View"
                     matTooltipPosition="above"
+                    (click)="openAddEditWarehouseModal(warehouse.id)"
                   >
                     <i class="material-symbols-outlined"> edit </i>
                   </button>
@@ -110,3 +113,219 @@
     </div>
   </mat-card-content>
 </mat-card>
+<!-- add edit modal below -->
+
+<!-- Modal -->
+<div class="modal" [ngStyle]="{ display: viewModel.displayStyle }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          {{ viewModel.AddEditWarehouseModalTitle }}
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeAddEditWarehouseModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="viewModel.warehouseForm" (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+            <!-- Name Field -->
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input
+                id="name"
+                type="text"
+                formControlName="name"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('name')?.invalid &&
+                  viewModel.warehouseForm.get('name')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('name')?.errors?.['required']"
+                  >Name is required.</small
+                >
+              </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <input
+                id="description"
+                type="text"
+                formControlName="description"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('description')?.invalid &&
+                  viewModel.warehouseForm.get('description')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('description')?.errors?.['required']"
+                  >Description is required.</small
+                >
+              </div>
+            </div>
+
+            <!-- Location Field -->
+            <div class="form-group">
+              <label for="location">Location:</label>
+              <input
+                id="location"
+                type="text"
+                formControlName="location"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('location')?.invalid &&
+                  viewModel.warehouseForm.get('location')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('location')?.errors?.['required']"
+                  >Location is required.</small
+                >
+              </div>
+            </div>
+
+            <!-- Contact Number Field -->
+            <div class="form-group">
+              <label for="contactNumber">Contact Number:</label>
+              <input
+                id="contactNumber"
+                type="text"
+                formControlName="contactNumber"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('contactNumber')?.invalid &&
+                  viewModel.warehouseForm.get('contactNumber')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('contactNumber')?.errors?.['required']"
+                  >Contact number is required.</small
+                >
+              </div>
+            </div>
+
+            <!-- Email ID Field -->
+            <div class="form-group">
+              <label for="emailId">Email ID:</label>
+              <input
+                id="emailId"
+                type="email"
+                formControlName="emailId"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('emailId')?.invalid &&
+                  viewModel.warehouseForm.get('emailId')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['required']"
+                  >Email ID is required.</small
+                >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['email']"
+                  >Invalid email address.</small
+                >
+              </div>
+            </div>
+
+            <!-- Storage Type Field -->
+            <div class="form-group">
+              <label for="storageType">Storage Type:</label>
+              <select
+                id="storageType"
+                formControlName="storageType"
+                class="form-control"
+              >
+                <option
+                  *ngFor="let type of viewModel.storageTypes"
+                  [value]="type.value"
+                >
+                  {{ type.key }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('storageType')?.invalid &&
+                  viewModel.warehouseForm.get('storageType')?.touched
+                "
+              >
+                <small class="text-danger">Storage type is required.</small>
+              </div>
+            </div>
+
+            <!-- Capacity Field -->
+            <div class="form-group">
+              <label for="capacity">Capacity:</label>
+              <input
+                id="capacity"
+                type="number"
+                formControlName="capacity"
+                class="form-control"
+              />
+              <div
+                *ngIf="
+                  viewModel.warehouseForm.get('capacity')?.invalid &&
+                  viewModel.warehouseForm.get('capacity')?.touched
+                "
+              >
+                <small
+                  class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('capacity')?.errors?.['required']"
+                  >Capacity is required.</small
+                >
+              </div>
+            </div>
+
+            <!-- Active Field -->
+            <div class="form-group">
+              <label for="isActive">Is Active:</label>
+              <input id="isActive" type="checkbox" formControlName="isActive" />
+            </div>
+
+            <!-- Client Company Detail ID Field -->
+            <div class="form-group">
+              <label for="clientCompanyDetailId"
+                >Client Company Detail ID:</label
+              >
+              <input
+                id="clientCompanyDetailId"
+                type="number"
+                formControlName="clientCompanyDetailId"
+                class="form-control"
+              />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
