@@ -75,7 +75,6 @@ export class WarehouseComponent
         });
       } else {
         this.viewModel.warehouses = resp.successData;
-        console.log(this.viewModel.warehouses);
       }
     } catch (error) {
       throw error;
