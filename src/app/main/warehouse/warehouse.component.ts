@@ -18,7 +18,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WareHouseSM } from '../../models/service-models/app/v1/warehouse-s-m';
-import { async } from 'rxjs';
 import { StorageTypeSM } from '../../models/service-models/app/enums/warehouse-storage-type-s-m.enum';
 
 @Component({
@@ -50,7 +49,7 @@ export class WarehouseComponent
     super(commonService, logHandlerService);
     // viewmodel
     this.viewModel = new WarehouseViewModel();
-
+    this.createForm();
     // making storage types as key value pairs
     this.viewModel.storageTypes = Object.entries(StorageTypeSM)
       .filter(([key, value]) => typeof value === 'number')
@@ -64,7 +63,7 @@ export class WarehouseComponent
 
   async ngOnInit() {
     await this.loadPageData();
-    this.createForm();
+
   }
 
   // Dark Mode

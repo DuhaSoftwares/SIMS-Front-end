@@ -27,15 +27,7 @@ import { filter } from 'rxjs';
   ]
 })
 export class AppComponent extends BaseComponent<AppViewModel> implements OnInit {
-  title = 'Musaib:SIMs';
-  routerSubscription: any;
-  location: any;
 
-  // isSidebarToggled
-  isSidebarToggled = false;
-
-  // isToggled
-  isToggled = false;
   constructor(
     commonService: CommonService,
     exceptionhandler: LogHandlerService,
@@ -44,11 +36,12 @@ export class AppComponent extends BaseComponent<AppViewModel> implements OnInit 
     public themeService: CustomizerSettingsService
   ) {
     super(commonService, exceptionhandler);
+    this.viewModel= new AppViewModel()
     this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
-      this.isSidebarToggled = isSidebarToggled;
+      this.viewModel.isSidebarToggled = isSidebarToggled;
   });
   this.themeService.isToggled$.subscribe(isToggled => {
-      this.isToggled = isToggled;
+      this.viewModel.isToggled = isToggled;
   });
   }
 
@@ -58,10 +51,10 @@ export class AppComponent extends BaseComponent<AppViewModel> implements OnInit 
 
 // recallJsFuntions
 recallJsFuntions() {
-    this.routerSubscription = this.router.events
+    this.viewModel.routerSubscription = this.router.events
     .pipe(filter((event: any) => event instanceof NavigationEnd || event instanceof NavigationCancel))
     .subscribe(event => {
-        this.location = this.router.url;
+        this.viewModel.location = this.router.url;
         if (!(event instanceof NavigationEnd)) {
             return;
         }

@@ -12,7 +12,7 @@
     <!-- Main Content -->
     <div
         class="main-content transition d-flex flex-column"
-        [ngClass]="{'active': isSidebarToggled}"
+        [ngClass]="{'active': viewModel.isSidebarToggled}"
         [class.right-sidebar]="themeService.isRightSidebar()"
         [class.hide-sidebar]="themeService.isHideSidebar()"
     >

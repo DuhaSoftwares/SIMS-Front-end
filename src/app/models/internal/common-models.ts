@@ -28,6 +28,7 @@ export class layoutVM{
   tokenRole:RoleTypeSM = RoleTypeSM.Unknown;
   showNavigation:boolean=true;
   showDefaultClass:boolean=true;
+  showCustomSettings:boolean=true;
   topNavExpand="top-nav-expand"
   sideNavExpand="side-nav-expand"
   displayAreaExpand="display-area-expand"

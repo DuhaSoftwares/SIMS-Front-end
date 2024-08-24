@@ -1,5 +1,13 @@
 import { BaseViewModel } from "../internal/base.viewmodel";
 
 export class AppViewModel extends BaseViewModel {
-    override PageTitle: string = 'Reno Softwares'
+    title = 'Musaib:SIMs';
+    routerSubscription: any;
+    location: any;
+  
+    // isSidebarToggled
+    isSidebarToggled = false;
+  
+    // isToggled
+    isToggled = false;
 }
