@@ -12,7 +12,6 @@ import { LogHandlerService } from '../../services/log-handler.service';
 import { WarehouseViewModel } from '../../models/view/end-user/warehouse.viewmodel';
 import {
   FormBuilder,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -40,14 +39,13 @@ import { StorageTypeSM } from '../../models/service-models/app/enums/warehouse-s
 })
 export class WarehouseComponent
   extends BaseComponent<WarehouseViewModel>
-  implements OnInit
-{
+  implements OnInit {
   constructor(
     public themeService: CustomizerSettingsService,
     private fb: FormBuilder,
     private warehouseService: WarehouseService,
-    private commonService: CommonService,
-    private logHandlerService: LogHandlerService
+    commonService: CommonService,
+    logHandlerService: LogHandlerService
   ) {
     super(commonService, logHandlerService);
     // viewmodel
@@ -65,7 +63,7 @@ export class WarehouseComponent
   }
 
   async ngOnInit() {
-    await this.getWareHouses();
+    await this.loadPageData();
     this.createForm();
   }
 
@@ -79,14 +77,15 @@ export class WarehouseComponent
     this.themeService.toggleRTLEnabledTheme();
   }
 
-  async getWareHouses() {
+  override async loadPageData() {
     /**
      * Retrieves all warehouses from the server and updates the component's view model.
      */
     try {
+      this._commonService.presentLoading()
       let resp = await this.warehouseService.getAllWarehouses();
       if (resp.isError) {
-        this.commonService.showSweetAlertConfirmation({
+        this._commonService.showSweetAlertConfirmation({
           text: 'Sorry we Ran into an error!',
           icon: 'error',
         });
@@ -96,11 +95,15 @@ export class WarehouseComponent
     } catch (error) {
       throw error;
     }
+    finally {
+      this._commonService.dismissLoader()
+    }
   }
 
   async deleteWareHouseById(id: number) {
     try {
-      const result = await this.commonService.showSweetAlertConfirmation({
+      this._commonService.presentLoading()
+      const result = await this._commonService.showSweetAlertConfirmation({
         text: 'Are you sure you want to delete this warehouse?',
         icon: 'warning',
         showCancelButton: true,
@@ -112,13 +115,13 @@ export class WarehouseComponent
         const resp = await this.warehouseService.deleteWarehouse(id);
 
         if (resp.isError) {
-          await this.commonService.showSweetAlertConfirmation({
+          await this._commonService.showSweetAlertConfirmation({
             text: 'Sorry, we ran into an error!',
             icon: 'error',
           });
         } else {
-          await this.getWareHouses();
-          await this.commonService.showSweetAlertConfirmation({
+          await this.loadPageData();
+          await this._commonService.showSweetAlertConfirmation({
             text: 'Deleted successfully!',
             icon: 'success',
           });
@@ -127,13 +130,17 @@ export class WarehouseComponent
     } catch (error) {
       throw error;
     }
+    finally {
+      this._commonService.dismissLoader()
+    }
   }
 
   async getWarehouseById(id: number) {
     try {
+      this._commonService.presentLoading()
       const resp = await this.warehouseService.getWarehouseById(id);
       if (resp.isError) {
-        this.commonService.showSweetAlertConfirmation({
+        this._commonService.showSweetAlertConfirmation({
           text: 'Sorry, we ran into an error!',
           icon: 'error',
         });
@@ -153,6 +160,9 @@ export class WarehouseComponent
       }
     } catch (error) {
       throw error;
+    }
+    finally {
+      this._commonService.dismissLoader()
     }
   }
 
@@ -196,6 +206,7 @@ export class WarehouseComponent
   // adding warehouse
   async addWarehouse(data: WareHouseSM) {
     try {
+      this._commonService.presentLoading()
       if (data) {
         let resp = await this.warehouseService.addWarehouse(data);
         if (resp.isError) {
@@ -205,7 +216,7 @@ export class WarehouseComponent
             title: 'Error',
           });
         } else {
-          await this.getWareHouses();
+          await this.loadPageData();
           await this._commonService.showSweetAlertConfirmation({
             text: 'Warehouse added successfully!',
             icon: 'success',
@@ -216,9 +227,13 @@ export class WarehouseComponent
     } catch (error) {
       throw error;
     }
+    finally {
+      this._commonService.dismissLoader()
+    }
   }
   async updateWarehouse(data: WareHouseSM) {
     try {
+      this._commonService.presentLoading()
       if (data) {
         let resp = await this.warehouseService.updateWarehouse(data);
         if (resp.isError) {
@@ -228,7 +243,7 @@ export class WarehouseComponent
             title: 'Error',
           });
         } else {
-          await this.getWareHouses();
+          await this.loadPageData();
           await this._commonService.showSweetAlertConfirmation({
             text: 'Warehouse Updated successfully!',
             icon: 'success',
@@ -238,6 +253,9 @@ export class WarehouseComponent
       }
     } catch (error) {
       throw error;
+    }
+    finally {
+      this._commonService.dismissLoader()
     }
   }
 }

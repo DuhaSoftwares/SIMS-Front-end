@@ -1,6 +1,4 @@
-<div
-  class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between"
->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
   <h5 class="mb-0">Warehose Table</h5>
   <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
     <li class="breadcrumb-item position-relative">
@@ -13,11 +11,8 @@
     <li class="breadcrumb-item position-relative">Warehouses</li>
   </ol>
 </div>
-<mat-card
-  class="daxa-card users-card mb-25 border-radius bg-white border-none d-block"
-  [class.component-dark-theme]="themeService.isDark()"
-  [class.rtl-enabled]="themeService.isRTLEnabled()"
->
+<mat-card class="daxa-card users-card mb-25 border-radius bg-white border-none d-block"
+  [class.component-dark-theme]="themeService.isDark()" [class.rtl-enabled]="themeService.isRTLEnabled()">
   <mat-card-header>
     <mat-card-title>
       <h5 class="mt-0 mb-0">Warehouses</h5>
@@ -72,36 +67,16 @@
                 </span>
               </td>
               <td>
-                <div
-                  class="action-info d-flex align-items-center justify-content-end"
-                >
-                  <button
-                    type="button"
-                    class="text-daxa"
-                    mat-button
-                    matTooltip="Edit"
-                    matTooltipPosition="above"
-                  >
+                <div class="action-info d-flex align-items-center justify-content-end">
+                  <button type="button" class="text-daxa" mat-button matTooltip="Edit" matTooltipPosition="above">
                     <i class="material-symbols-outlined"> visibility </i>
                   </button>
-                  <button
-                    type="button"
-                    class="text-body"
-                    mat-button
-                    matTooltip="View"
-                    matTooltipPosition="above"
-                    (click)="openAddEditWarehouseModal(warehouse.id)"
-                  >
+                  <button type="button" class="text-body" mat-button matTooltip="View" matTooltipPosition="above"
+                    (click)="openAddEditWarehouseModal(warehouse.id)">
                     <i class="material-symbols-outlined"> edit </i>
                   </button>
-                  <button
-                    type="button"
-                    class="text-body"
-                    mat-button
-                    matTooltip="Delete"
-                    matTooltipPosition="above"
-                    (click)="deleteWareHouseById(warehouse.id)"
-                  >
+                  <button type="button" class="text-body" mat-button matTooltip="Delete" matTooltipPosition="above"
+                    (click)="deleteWareHouseById(warehouse.id)">
                     <i class="material-symbols-outlined"> delete </i>
                   </button>
                 </div>
@@ -123,13 +98,8 @@
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
           {{ viewModel.AddEditWarehouseModalTitle }}
         </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-          (click)="closeAddEditWarehouseModal()"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeAddEditWarehouseModal()"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="viewModel.warehouseForm" (ngSubmit)="onSubmit()">
@@ -137,144 +107,84 @@
             <!-- Name Field -->
             <div class="form-group">
               <label for="name">Name:</label>
-              <input
-                id="name"
-                type="text"
-                formControlName="name"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="name" type="text" formControlName="name" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('name')?.invalid &&
                   viewModel.warehouseForm.get('name')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('name')?.errors?.['required']"
-                  >Name is required.</small
-                >
+                ">
+                <small class="text-danger" *ngIf="viewModel.warehouseForm.get('name')?.errors?.['required']">Name is
+                  required.</small>
               </div>
             </div>
 
             <!-- Description Field -->
             <div class="form-group">
               <label for="description">Description:</label>
-              <input
-                id="description"
-                type="text"
-                formControlName="description"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="description" type="text" formControlName="description" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('description')?.invalid &&
                   viewModel.warehouseForm.get('description')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('description')?.errors?.['required']"
-                  >Description is required.</small
-                >
+                ">
+                <small class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('description')?.errors?.['required']">Description is
+                  required.</small>
               </div>
             </div>
 
             <!-- Location Field -->
             <div class="form-group">
               <label for="location">Location:</label>
-              <input
-                id="location"
-                type="text"
-                formControlName="location"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="location" type="text" formControlName="location" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('location')?.invalid &&
                   viewModel.warehouseForm.get('location')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('location')?.errors?.['required']"
-                  >Location is required.</small
-                >
+                ">
+                <small class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('location')?.errors?.['required']">Location is required.</small>
               </div>
             </div>
 
             <!-- Contact Number Field -->
             <div class="form-group">
               <label for="contactNumber">Contact Number:</label>
-              <input
-                id="contactNumber"
-                type="text"
-                formControlName="contactNumber"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="contactNumber" type="text" formControlName="contactNumber" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('contactNumber')?.invalid &&
                   viewModel.warehouseForm.get('contactNumber')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('contactNumber')?.errors?.['required']"
-                  >Contact number is required.</small
-                >
+                ">
+                <small class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('contactNumber')?.errors?.['required']">Contact number is
+                  required.</small>
               </div>
             </div>
 
             <!-- Email ID Field -->
             <div class="form-group">
               <label for="emailId">Email ID:</label>
-              <input
-                id="emailId"
-                type="email"
-                formControlName="emailId"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="emailId" type="email" formControlName="emailId" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('emailId')?.invalid &&
                   viewModel.warehouseForm.get('emailId')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['required']"
-                  >Email ID is required.</small
-                >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['email']"
-                  >Invalid email address.</small
-                >
+                ">
+                <small class="text-danger" *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['required']">Email ID
+                  is required.</small>
+                <small class="text-danger" *ngIf="viewModel.warehouseForm.get('emailId')?.errors?.['email']">Invalid
+                  email address.</small>
               </div>
             </div>
 
             <!-- Storage Type Field -->
             <div class="form-group">
               <label for="storageType">Storage Type:</label>
-              <select
-                id="storageType"
-                formControlName="storageType"
-                class="form-control"
-              >
-                <option
-                  *ngFor="let type of viewModel.storageTypes"
-                  [value]="type.value"
-                >
+              <select id="storageType" formControlName="storageType" class="form-control">
+                <option *ngFor="let type of viewModel.storageTypes" [value]="type.value">
                   {{ type.key }}
                 </option>
               </select>
-              <div
-                *ngIf="
+              <div *ngIf="
                   viewModel.warehouseForm.get('storageType')?.invalid &&
                   viewModel.warehouseForm.get('storageType')?.touched
-                "
-              >
+                ">
                 <small class="text-danger">Storage type is required.</small>
               </div>
             </div>
@@ -282,23 +192,13 @@
             <!-- Capacity Field -->
             <div class="form-group">
               <label for="capacity">Capacity:</label>
-              <input
-                id="capacity"
-                type="number"
-                formControlName="capacity"
-                class="form-control"
-              />
-              <div
-                *ngIf="
+              <input id="capacity" type="number" formControlName="capacity" class="form-control" />
+              <div *ngIf="
                   viewModel.warehouseForm.get('capacity')?.invalid &&
                   viewModel.warehouseForm.get('capacity')?.touched
-                "
-              >
-                <small
-                  class="text-danger"
-                  *ngIf="viewModel.warehouseForm.get('capacity')?.errors?.['required']"
-                  >Capacity is required.</small
-                >
+                ">
+                <small class="text-danger"
+                  *ngIf="viewModel.warehouseForm.get('capacity')?.errors?.['required']">Capacity is required.</small>
               </div>
             </div>
 
@@ -310,15 +210,9 @@
 
             <!-- Client Company Detail ID Field -->
             <div class="form-group">
-              <label for="clientCompanyDetailId"
-                >Client Company Detail ID:</label
-              >
-              <input
-                id="clientCompanyDetailId"
-                type="number"
-                formControlName="clientCompanyDetailId"
-                class="form-control"
-              />
+              <label for="clientCompanyDetailId">Client Company Detail ID:</label>
+              <input id="clientCompanyDetailId" type="number" formControlName="clientCompanyDetailId"
+                class="form-control" />
             </div>
 
             <!-- Submit Button -->

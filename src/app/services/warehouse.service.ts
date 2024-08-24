@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AccountsClient } from '../clients/accounts.client';
 import { BaseService } from './base.service';
 import { ApiResponse } from '../models/service-models/foundation/api-contracts/base/api-response';
 import { WareHouseSM } from '../models/service-models/app/v1/warehouse-s-m';
@@ -13,7 +12,6 @@ import { ApiRequest } from '../models/service-models/foundation/api-contracts/ba
 })
 export class WarehouseService extends BaseService {
   constructor(
-    private accountClient: AccountsClient,
     private warehouseClient: WarehouseClient
   ) {
     super();
