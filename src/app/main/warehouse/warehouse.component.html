@@ -1,4 +1,4 @@
-<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+<!-- <div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
   <h5 class="mb-0">Warehose Table</h5>
   <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
     <li class="breadcrumb-item position-relative">
@@ -10,7 +10,7 @@
     <li class="breadcrumb-item position-relative">Details</li>
     <li class="breadcrumb-item position-relative">Warehouses</li>
   </ol>
-</div>
+</div> -->
 <mat-card class="daxa-card users-card mb-25 border-radius bg-white border-none d-block"
   [class.component-dark-theme]="themeService.isDark()" [class.rtl-enabled]="themeService.isRTLEnabled()">
   <mat-card-header>
@@ -68,10 +68,10 @@
               </td>
               <td>
                 <div class="action-info d-flex align-items-center justify-content-end">
-                  <button type="button" class="text-daxa" mat-button matTooltip="Edit" matTooltipPosition="above">
+                  <!-- <button type="button" class="text-daxa" mat-button matTooltip="Edit" matTooltipPosition="above">
                     <i class="material-symbols-outlined"> visibility </i>
-                  </button>
-                  <button type="button" class="text-body" mat-button matTooltip="View" matTooltipPosition="above"
+                  </button> -->
+                  <button type="button" class="text-body" mat-button matTooltip="Edit" matTooltipPosition="above"
                     (click)="openAddEditWarehouseModal(warehouse.id)">
                     <i class="material-symbols-outlined"> edit </i>
                   </button>

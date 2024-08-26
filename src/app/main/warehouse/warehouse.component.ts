@@ -85,7 +85,7 @@ export class WarehouseComponent
       let resp = await this.warehouseService.getAllWarehouses();
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
-          text: 'Sorry we Ran into an error!',
+          text: resp.errorData.displayMessage,
           icon: 'error',
         });
       } else {
@@ -115,7 +115,7 @@ export class WarehouseComponent
 
         if (resp.isError) {
           await this._commonService.showSweetAlertConfirmation({
-            text: 'Sorry, we ran into an error!',
+            text: resp.errorData.displayMessage,
             icon: 'error',
           });
         } else {
@@ -140,7 +140,7 @@ export class WarehouseComponent
       const resp = await this.warehouseService.getWarehouseById(id);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
-          text: 'Sorry, we ran into an error!',
+          text: resp.errorData.displayMessage,
           icon: 'error',
         });
       } else {
@@ -210,7 +210,7 @@ export class WarehouseComponent
         let resp = await this.warehouseService.addWarehouse(data);
         if (resp.isError) {
           this._commonService.showSweetAlertConfirmation({
-            text: 'Sorry we ran into an error.',
+            text: resp.errorData.displayMessage,
             icon: 'error',
             title: 'Error',
           });
@@ -237,7 +237,7 @@ export class WarehouseComponent
         let resp = await this.warehouseService.updateWarehouse(data);
         if (resp.isError) {
           this._commonService.showSweetAlertConfirmation({
-            text: 'Sorry we ran into an error.',
+            text: resp.errorData.displayMessage,
             icon: 'error',
             title: 'Error',
           });
