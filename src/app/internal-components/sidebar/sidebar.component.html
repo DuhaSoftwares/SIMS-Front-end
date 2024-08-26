@@ -83,6 +83,47 @@
                             Warehouse
                         </span>
                     </a>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="material-symbols-outlined">
+                                    unfold_more
+                                </i>
+                                <span class="title">
+                                    Product
+                                </span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <mat-accordion>
+                            <ul class="sidebar-sub-menu">
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/add-products" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Add Product
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/product-list" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Product List
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/categories" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Category
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/units" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Unit
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/brands" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Brand
+                                    </a>
+                                </li>
+                            </ul>
+                        </mat-accordion>
+                    </mat-expansion-panel>
                     <a routerLink="/calendar" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             calendar_today

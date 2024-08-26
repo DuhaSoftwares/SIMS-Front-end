@@ -39,6 +39,12 @@ export const routes: Routes = [
    allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
  },
 },
+{ path: '', loadChildren: () => import('./main/product/product.module').then(m => m.ProductModule), canActivate: [AuthGuard],
+  data: {
+ allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+},
+},
+{ path: '', redirectTo: '/product', pathMatch: 'full' },
   {path: '**', component: NotFoundComponent}
   // {
   //   path: "dashboard",
@@ -51,7 +57,6 @@ export const routes: Routes = [
 
   //   },
   // },
-
   // { path: '**', pathMatch: 'full', component: NotFoundComponent },
 ];
 @NgModule({
