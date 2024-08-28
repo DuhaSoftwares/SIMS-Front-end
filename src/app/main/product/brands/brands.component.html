@@ -1,1 +1,110 @@
-<p>brands works!</p>
+<div
+  class="container-fluid"
+  [class.component-dark-theme]="themeService.isDark()"
+  [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="col-12">
+        <mat-card
+          class="daxa-card mb-25 border-radius bg-white border-none d-block"
+        >
+          <mat-card-content>
+            <file-upload
+              class="file-uploader"
+              [multiple]="viewModel.multiple"
+            ></file-upload>
+          </mat-card-content>
+          <div class="form-group mt-3">
+            <label class="main-label d-block mb-13 lh-1 text-black">
+              Brand Name
+            </label>
+            <mat-form-field>
+              <mat-label> Enter Brand Name </mat-label>
+              <input matInput type="text" />
+            </mat-form-field>
+          </div>
+
+          <div class="button-div mt-3">
+            <button mat-raised-button>Create Brand</button>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <mat-card
+        class="daxa-card users-card mb-25 border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+        [class.rtl-enabled]="themeService.isRTLEnabled()"
+      >
+        <mat-card-content>
+          <div class="users-table">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col" class="fw-medium text-black">ID</th>
+                    <th scope="col" class="fw-medium text-black">Name</th>
+                    <th scope="col" class="fw-medium text-black">Image</th>
+                    <th scope="col" class="fw-medium text-black">
+                      Description
+                    </th>
+
+                    <th scope="col" class="fw-medium text-black">
+                      Product Count
+                    </th>
+
+                    <th scope="col" class="fw-medium text-black">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-body">88</td>
+                    <td>Hp</td>
+                    <td class="text-body">
+                      <div class="info d-flex align-items-center">
+                        <div class="image">
+                          <img
+                            src="assets/images/users/user15.jpg"
+                            alt="user-image"
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-body">dfd</td>
+                    <td class="text-body">ff</td>
+
+                    <td>
+                      <div
+                        class="action-info d-flex align-items-center justify-content-end"
+                      >
+                        <button
+                          type="button"
+                          class="text-body"
+                          mat-button
+                          matTooltip="Edit"
+                          matTooltipPosition="above"
+                        >
+                          <i class="material-symbols-outlined"> edit </i>
+                        </button>
+                        <button
+                          type="button"
+                          class="text-body"
+                          mat-button
+                          matTooltip="Delete"
+                          matTooltipPosition="above"
+                        >
+                          <i class="material-symbols-outlined"> delete </i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
