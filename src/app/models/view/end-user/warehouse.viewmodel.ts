@@ -8,6 +8,7 @@ export class WarehouseViewModel extends BaseViewModel {
   AddEditWarehouseModalTitle: string = '';
   warehouse = new WareHouseSM();
   warehouseForm!: FormGroup;
+  isEditMode!:boolean;
   storageTypes: { key: string; value: number }[] = [];
 
   isToggled = false;

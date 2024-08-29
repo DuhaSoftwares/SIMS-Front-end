@@ -1,3 +1,6 @@
+.table-responsive{
+  height: 55vh;
+}
 .mat-mdc-card {
   &.daxa-card {
     &.users-card {
@@ -212,6 +215,9 @@
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
+  .table-responsive{
+    height: 90vh;
+  }
   .mat-mdc-card {
     &.daxa-card {
       &.users-card {
@@ -272,6 +278,9 @@
 
 /* Min width 576px to Max width 767px */
 @media only screen and (min-width: 576px) and (max-width: 767px) {
+  .table-responsive{
+    height: 90vh;
+  }
   .mat-mdc-card {
     &.daxa-card {
       &.users-card {
@@ -335,7 +344,30 @@
     }
   }
 }
-
+.mat-mdc-btn {
+  border: 0;
+  height: auto;
+  min-width: auto;
+  min-height: auto;
+  margin-top: 5px;
+  padding: 10px 8px;
+  font-weight: normal;
+  color: var(--whiteColor);
+  background-color: var(--daxaColor);
+  border-radius: 10px;
+}
+.modal-dialog{
+  width: 800px;
+  height: 500px;
+}
+.form-group{
+  padding: 2px;
+}
+label{
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-weight: 600;
+}
 /* Min width 768px to Max width 991px */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
 }
@@ -351,15 +383,4 @@
 /* Min width 1600px */
 @media only screen and (min-width: 1600px) {
 }
-.mat-mdc-btn {
-  border: 0;
-  height: auto;
-  min-width: auto;
-  min-height: auto;
-  margin-top: 5px;
-  padding: 10px 8px;
-  font-weight: normal;
-  color: var(--whiteColor);
-  background-color: var(--daxaColor);
-  border-radius: 10px;
-}
+

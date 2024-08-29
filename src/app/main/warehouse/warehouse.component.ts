@@ -19,19 +19,13 @@ import {
 import { CommonModule } from '@angular/common';
 import { WareHouseSM } from '../../models/service-models/app/v1/warehouse-s-m';
 import { StorageTypeSM } from '../../models/service-models/app/enums/warehouse-storage-type-s-m.enum';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-warehouse',
   standalone: true,
   imports: [
-    RouterLink,
-    MatCardModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatTooltipModule,
-    FormsModule,
-    CommonModule,
-    ReactiveFormsModule,
+    SharedModule
   ],
   templateUrl: './warehouse.component.html',
   styleUrl: './warehouse.component.scss',
@@ -167,21 +161,21 @@ export class WarehouseComponent
 
   createForm(): void {
     this.viewModel.warehouseForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      location: ['', Validators.required],
-      contactNumber: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+      location: ['', [Validators.required, Validators.minLength(5)]],
+      contactNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       emailId: ['', [Validators.required, Validators.email]],
       storageType: ['', Validators.required],
-      capacity: ['', Validators.required],
+      capacity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       isActive: [true],
-      clientCompanyDetailId: [null],
     });
   }
+  
   async openAddEditWarehouseModal(id: number) {
     this.viewModel.displayStyle = 'block';
-    this.viewModel.AddEditWarehouseModalTitle =
-      id > 0 ? 'Update Warehouse' : 'Add Warehouse';
+    this.viewModel.AddEditWarehouseModalTitle =id > 0 ? 'Update Warehouse' : 'Add Warehouse';
+    this.viewModel.isEditMode = id > 0; // Set flag for edit mode
     if (id > 0) {
       await this.getWarehouseById(id);
     }
