@@ -13,6 +13,7 @@ export const AppConstants = {
     CROP_URL: 'api/v1/Crop',
     FARM_URL: 'api/v1/Farm',
     WAREHOUSE: 'api/Warehouse',
+    BRAND: 'api/Brand',
   },
   DATABASE_KEYS: {
     ACCESS_TOKEN: 'ACCESS_TOKEN',

@@ -10,24 +10,42 @@
           class="daxa-card mb-25 border-radius bg-white border-none d-block"
         >
           <mat-card-content>
-            <file-upload
-              class="file-uploader"
-              [multiple]="viewModel.multiple"
-            ></file-upload>
-          </mat-card-content>
-          <div class="form-group mt-3">
-            <label class="main-label d-block mb-13 lh-1 text-black">
-              Brand Name
-            </label>
-            <mat-form-field>
-              <mat-label> Enter Brand Name </mat-label>
-              <input matInput type="text" />
-            </mat-form-field>
-          </div>
+            <form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
+              <!-- image upload -->
+              <file-upload
+                class="file-uploader"
+                (change)="onFileChange($event)"
+                [multiple]="viewModel.multiple"
+              ></file-upload>
+              <!-- Brand Name Section -->
+              <div class="form-group mt-3">
+                <label class="main-label d-block mb-13 lh-1 text-black"
+                  >Brand Name</label
+                >
+                <mat-form-field>
+                  <mat-label>Enter Brand Name</mat-label>
+                  <input matInput formControlName="brandName" />
+                  <mat-error
+                    *ngIf="brandForm.get('brandName')?.hasError('required')"
+                  >
+                    Brand name is required.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="brandForm.get('brandName')?.hasError('minlength')"
+                  >
+                    Brand name must be at least 3 characters long.
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
-          <div class="button-div mt-3">
-            <button mat-raised-button>Create Brand</button>
-          </div>
+              <!-- Submit Button -->
+              <div class="button-div mt-3">
+                <button mat-raised-button type="submit">
+                  {{ viewModel.updateMode ? "Update Brand" : "Create  Brand" }}
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>
@@ -46,33 +64,20 @@
                     <th scope="col" class="fw-medium text-black">ID</th>
                     <th scope="col" class="fw-medium text-black">Name</th>
                     <th scope="col" class="fw-medium text-black">Image</th>
-                    <th scope="col" class="fw-medium text-black">
-                      Description
-                    </th>
-
-                    <th scope="col" class="fw-medium text-black">
-                      Product Count
-                    </th>
-
                     <th scope="col" class="fw-medium text-black">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="text-body">88</td>
-                    <td>Hp</td>
+                  <tr *ngFor="let brand of viewModel.brands">
+                    <td class="text-body">{{ brand.id }}</td>
+                    <td>{{ brand.name }}</td>
                     <td class="text-body">
                       <div class="info d-flex align-items-center">
                         <div class="image">
-                          <img
-                            src="assets/images/users/user15.jpg"
-                            alt="user-image"
-                          />
+                          <img [src]="brand.imagePath" alt="user-image" />
                         </div>
                       </div>
                     </td>
-                    <td class="text-body">dfd</td>
-                    <td class="text-body">ff</td>
 
                     <td>
                       <div
@@ -84,6 +89,7 @@
                           mat-button
                           matTooltip="Edit"
                           matTooltipPosition="above"
+                          (click)="getBrandById(brand.id)"
                         >
                           <i class="material-symbols-outlined"> edit </i>
                         </button>
@@ -93,6 +99,7 @@
                           mat-button
                           matTooltip="Delete"
                           matTooltipPosition="above"
+                          (click)="deleteBrandById(brand.id)"
                         >
                           <i class="material-symbols-outlined"> delete </i>
                         </button>
