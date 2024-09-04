@@ -18,6 +18,7 @@ import { BrandSM } from '../../../models/service-models/app/v1/brand-s-m';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-brands',
@@ -45,6 +46,7 @@ export class BrandsComponent
     this.loadPageData();
     this.brandForm = this.fb.group({
       brandName: ['', [Validators.required, Validators.minLength(3)]],
+      imagePath: [''],
     });
   }
   // Dark Mode
@@ -56,15 +58,14 @@ export class BrandsComponent
   toggleRTLEnabledTheme() {
     this.themeService.toggleRTLEnabledTheme();
   }
-
-  override async loadPageData() {
-    /**
+   /**
      * Retrieves all brands from the server and updates the component's view model.
      */
+  override async loadPageData() {
     try {
       this._commonService.presentLoading();
-      let resp = await this.brandService.getAllBrands();
-
+     await this.getTotatBrandsCount()
+      let resp = await this.brandService.getAllBrands(this.viewModel);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
           text: resp.errorData.displayMessage,
@@ -79,7 +80,26 @@ export class BrandsComponent
       this._commonService.dismissLoader();
     }
   }
-
+  async getTotatBrandsCount() {
+    try {
+      await this._commonService.presentLoading();
+      let resp = await this.brandService.getTotatBrandsCount();
+      if (resp.isError) {
+        await this._exceptionHandler.logObject(resp.errorData);
+        this._commonService.showSweetAlertToast({
+          title: 'Error!',
+          text: resp.errorData.displayMessage,
+          position: 'top-end',
+          icon: 'error'
+        });
+      } else {
+        this.viewModel.pagination.totalCount = resp.successData.intResponse;
+      }
+    } catch (error) {
+    } finally {
+      await this._commonService.dismissLoader();
+    }
+  }
   async getBrandById(id: number) {
     try {
       this._commonService.presentLoading();
@@ -136,15 +156,14 @@ export class BrandsComponent
   }
 
   onFileChange(event: any) {
-    this._commonService
-      .convertFileToBase64(event.target.files[0])
+    const file = event.target.files[0];
+    this._commonService.convertFileToBase64(file)
       .subscribe((base64) => {
-        this.viewModel.fileName = event.target.files[0].name;
+        this.viewModel.fileName = file.name;
         this.viewModel.fileName.split('?')[0].split('.').pop();
         this.viewModel.brand.imagePath = base64;
       });
   }
-
   onSubmit(): void {
     if (this.brandForm.invalid) {
       this.brandForm.markAllAsTouched();
@@ -152,7 +171,6 @@ export class BrandsComponent
       try {
         if (this.viewModel.updateMode) {
           this._commonService.presentLoading();
-          const formData = new FormData();
           this.viewModel.brand.name = this.brandForm.get('brandName')?.value;
           this.updateBrand(this.viewModel.brand);
         } else {
@@ -225,10 +243,24 @@ export class BrandsComponent
     }
   }
 
-  async loadPageDataWithPagination(pageNumber: any) {
-    if (pageNumber && pageNumber > 0) {
-      this.viewModel.pagination.PageNo = pageNumber;
-      await this.loadPageData();
-    }
+// Define the totalItems variable, typically set when data is loaded from the API
+
+async onPageChange(event: PageEvent) {
+  const pageIndex = event.pageIndex;
+  const pageSize = event.pageSize;
+  // Calculate the correct page number (since Angular Material uses 0-based index)
+  const pageNumber = pageIndex + 1;
+  // Update pagination details
+  this.viewModel.pagination.PageNo = pageNumber;
+  this.viewModel.pagination.PageSize = pageSize;
+  // Load the data for the selected page
+  await this.loadPageDataWithPagination(pageNumber);
+}
+
+async loadPageDataWithPagination(pageNumber: number) {
+  if (pageNumber && pageNumber > 0) {
+    this.viewModel.pagination.PageNo = pageNumber;
+    await this.loadPageData();
   }
+}
 }

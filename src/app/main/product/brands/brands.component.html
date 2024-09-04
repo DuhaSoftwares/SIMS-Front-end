@@ -12,11 +12,7 @@
           <mat-card-content>
             <form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
               <!-- image upload -->
-              <file-upload
-                class="file-uploader"
-                (change)="onFileChange($event)"
-                [multiple]="viewModel.multiple"
-              ></file-upload>
+               <input class="file-uploader" type="file" accept=".png,.jpg,.jpeg,.jpe,.jfif,.JPG,.PNG,.JPEG,.JPE,.JFIF,.BMP,.bmp" (change)="onFileChange($event)">
               <!-- Brand Name Section -->
               <div class="form-group mt-3">
                 <label class="main-label d-block mb-13 lh-1 text-black"
@@ -57,66 +53,65 @@
       >
         <mat-card-content>
           <div class="users-table">
-            <div class="table-responsive">
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col" class="fw-medium text-black">ID</th>
-                    <th scope="col" class="fw-medium text-black">Name</th>
-                    <th scope="col" class="fw-medium text-black">Image</th>
-                    <th scope="col" class="fw-medium text-black">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let brand of viewModel.brands">
-                    <td class="text-body">{{ brand.id }}</td>
-                    <td>{{ brand.name }}</td>
-                    <td class="text-body">
-                      <div class="info d-flex align-items-center">
-                        <div class="image">
-                          <img [src]="brand.imagePath" alt="user-image" />
-                        </div>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col" class="fw-medium text-black">ID</th>
+                  <th scope="col" class="fw-medium text-black">Name</th>
+                  <th scope="col" class="fw-medium text-black">Image</th>
+                  <th scope="col" class="fw-medium text-black">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let brand of viewModel.brands">
+                  <td class="text-body">{{ brand.id }}</td>
+                  <td>{{ brand.name }}</td>
+                  <td class="text-body">
+                    <div class="info d-flex align-items-center">
+                      <div class="image">
+                        <img *ngIf="!brand.imagePath" src="https://thumbs.dreamstime.com/b/blog-computer-tablet-cloud-text-work-desk-47237130.jpg" alt="blog-image" loading="lazy">
+                        <img *ngIf="brand.imagePath" [src]="'data:image/jpeg;base64,' +brand.imagePath" alt="brand-image" loading="lazy">
                       </div>
-                    </td>
-
-                    <td>
-                      <div
-                        class="action-info d-flex align-items-center justify-content-end"
+                    </div>
+                  </td>
+                  <td>
+                    <div class="action-info d-flex align-items-center justify-content-end">
+                      <button
+                        type="button"
+                        class="text-body"
+                        mat-button
+                        matTooltip="Edit"
+                        matTooltipPosition="above"
+                        (click)="getBrandById(brand.id)"
                       >
-                        <button
-                          type="button"
-                          class="text-body"
-                          mat-button
-                          matTooltip="Edit"
-                          matTooltipPosition="above"
-                          (click)="getBrandById(brand.id)"
-                        >
-                          <i class="material-symbols-outlined"> edit </i>
-                        </button>
-                        <button
-                          type="button"
-                          class="text-body"
-                          mat-button
-                          matTooltip="Delete"
-                          matTooltipPosition="above"
-                          (click)="deleteBrandById(brand.id)"
-                        >
-                          <i class="material-symbols-outlined"> delete </i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                        <i class="material-symbols-outlined"> edit </i>
+                      </button>
+                      <button
+                        type="button"
+                        class="text-body"
+                        mat-button
+                        matTooltip="Delete"
+                        matTooltipPosition="above"
+                        (click)="deleteBrandById(brand.id)"
+                      >
+                        <i class="material-symbols-outlined"> delete </i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <mat-paginator
+            [length]="viewModel.pagination.totalCount"
             [pageSizeOptions]="[5, 10, 20]"
+            [pageSize]="10"
             showFirstLastButtons
-            (selectPageNum)="loadPageDataWithPagination($event)"
-          ></mat-paginator>
+            (page)="onPageChange($event)">
+          </mat-paginator>
         </mat-card-content>
       </mat-card>
     </div>
+    
   </div>
 </div>

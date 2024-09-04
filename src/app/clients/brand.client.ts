@@ -8,6 +8,8 @@ import { AppConstants } from '../app-constants';
 import { ApiRequest } from '../models/service-models/foundation/api-contracts/base/api-request';
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
 import { BrandSM } from '../models/service-models/app/v1/brand-s-m';
+import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
+import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,14 +21,15 @@ export class BrandClient extends BaseApiClient {
   ) {
     super(storageService, storageCache, commonResponseCodeHandler);
   }
-
-  GetAllBrands = async (): Promise<ApiResponse<BrandSM[]>> => {
-    let resp = await this.GetResponseAsync<number, BrandSM[]>(
-      `${AppConstants.API_ENDPOINTS.BRAND}?skip=0&top=10`,
-      'GET'
-    );
+  GetAllBrands = async (queryFilter:QueryFilter): Promise<ApiResponse<BrandSM[]>> => {
+    let resp = await this.GetResponseAsync<null, BrandSM[]>(`${AppConstants.API_ENDPOINTS.BRAND}?skip=${queryFilter.skip}&top=${queryFilter.top}`, 'GET');
     return resp;
   };
+
+  GetTotatBrandsCount = async (): Promise<ApiResponse<IntResponseRoot>> => {
+    let resp = await this.GetResponseAsync<null, IntResponseRoot>(`${AppConstants.API_ENDPOINTS.BRAND}/count`, 'GET');
+    return resp;
+    }
 
   /**delete brand by id */
   DeleteBrandById = async (

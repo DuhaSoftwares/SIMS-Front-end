@@ -7,6 +7,10 @@
             left: -10px;
             right: -10px;
           }
+          max-height: 60vh; // Set the max height for scrolling
+          overflow-y: auto; // Enable vertical scrolling
+          display: block; // Ensure the container behaves as a block element
+
           table {
             width: 100%;
             border-spacing: 0;
@@ -37,12 +41,12 @@
 
                   .info {
                     .image {
-                      width: 35px;
+                      width: 60px;
                       line-height: 0.01;
                       margin-right: 12px;
 
                       img {
-                        border-radius: 50%;
+                        border-radius: 10%;
                       }
                     }
                   }
@@ -142,73 +146,7 @@
     }
   }
 }
-::ng-deep {
-  .mat-mdc-card {
-    &.daxa-card {
-      &.users-card {
-        .mat-mdc-card-content {
-          .users-table {
-            table {
-              tbody {
-                tr {
-                  td {
-                    .action-info {
-                      display: flex;
-                      align-items: center;
-                      justify-content: end;
 
-                      .mat-mdc-button {
-                        padding: 0;
-                        width: auto;
-                        height: auto;
-                        line-height: 1;
-                        min-width: auto;
-                        border-radius: 0;
-
-                        .mdc-button__label {
-                          i {
-                            font-size: 16px;
-                          }
-                        }
-                        &:not(:first-child) {
-                          margin-left: 12px;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        &.rtl-enabled {
-          .mat-mdc-card-content {
-            .users-table {
-              table {
-                tbody {
-                  tr {
-                    td {
-                      .action-info {
-                        .mat-mdc-button {
-                          &:not(:first-child) {
-                            margin: {
-                              left: 0;
-                              right: 12px;
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
 
 /* Max width 767px */
 @media only screen and (max-width: 767px) {
