@@ -20,9 +20,9 @@ export class BrandClient extends BaseApiClient {
     super(storageService, storageCache, commonResponseCodeHandler);
   }
 
-  GetAllBrand = async (): Promise<ApiResponse<BrandSM[]>> => {
+  GetAllBrands = async (): Promise<ApiResponse<BrandSM[]>> => {
     let resp = await this.GetResponseAsync<number, BrandSM[]>(
-      `${AppConstants.API_ENDPOINTS.BRAND}`,
+      `${AppConstants.API_ENDPOINTS.BRAND}?skip=0&top=10`,
       'GET'
     );
     return resp;

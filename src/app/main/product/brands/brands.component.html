@@ -110,6 +110,11 @@
               </table>
             </div>
           </div>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+            (selectPageNum)="loadPageDataWithPagination($event)"
+          ></mat-paginator>
         </mat-card-content>
       </mat-card>
     </div>

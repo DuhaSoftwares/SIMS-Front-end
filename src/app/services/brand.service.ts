@@ -23,7 +23,7 @@ export class BrandService extends BaseService {
    * @throws Will throw an error if the server request fails.
    */
   async getAllBrands(): Promise<ApiResponse<BrandSM[]>> {
-    return await this.brandClient.GetAllBrand();
+    return await this.brandClient.GetAllBrands();
   }
 
   async deleteBrand(id: number): Promise<ApiResponse<DeleteResponseRoot>> {

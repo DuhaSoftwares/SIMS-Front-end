@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { MatInputModule } from '@angular/material/input';
     FileUploadModule,
     MatFormFieldModule,
     MatInputModule,
+    MatPaginatorModule,
   ],
   declarations: [],
   providers: [DatePipe],

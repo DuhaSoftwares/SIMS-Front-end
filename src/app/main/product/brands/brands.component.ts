@@ -43,7 +43,6 @@ export class BrandsComponent
   brandForm!: FormGroup;
   ngOnInit(): void {
     this.loadPageData();
-
     this.brandForm = this.fb.group({
       brandName: ['', [Validators.required, Validators.minLength(3)]],
     });
@@ -65,6 +64,7 @@ export class BrandsComponent
     try {
       this._commonService.presentLoading();
       let resp = await this.brandService.getAllBrands();
+
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
           text: resp.errorData.displayMessage,
@@ -222,6 +222,13 @@ export class BrandsComponent
       throw error;
     } finally {
       this._commonService.dismissLoader();
+    }
+  }
+
+  async loadPageDataWithPagination(pageNumber: any) {
+    if (pageNumber && pageNumber > 0) {
+      this.viewModel.pagination.PageNo = pageNumber;
+      await this.loadPageData();
     }
   }
 }
