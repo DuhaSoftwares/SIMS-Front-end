@@ -12,6 +12,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CdkTableModule } from '@angular/cdk/table';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -36,6 +39,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
+    MatCheckboxModule,
+    CdkTableModule,
+    MatTableModule,
   ],
   declarations: [],
   providers: [DatePipe],
