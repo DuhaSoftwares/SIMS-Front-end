@@ -11,13 +11,6 @@
         >
           <mat-card-content>
             <form [formGroup]="categoriesForm" (ngSubmit)="onSubmit()">
-              <!-- image upload -->
-              <input
-                class="file-uploader"
-                type="file"
-                accept=".png,.jpg,.jpeg,.jpe,.jfif,.JPG,.PNG,.JPEG,.JPE,.JFIF,.BMP,.bmp"
-                (change)="onFileChange($event)"
-              />
               <!-- Category Name Section -->
               <div class="form-group mt-3">
                 <label class="main-label d-block mb-13 lh-1 text-black"
@@ -44,6 +37,33 @@
                   </mat-error>
                 </mat-form-field>
               </div>
+              <div class="form-group mt-3">
+                <label class="main-label d-block mb-13 lh-1 text-black"
+                  >Category Description</label
+                >
+                <mat-form-field>
+                  <mat-label>Enter Category Description</mat-label>
+                  <input matInput formControlName="categoriesDescription" />
+                  <mat-error
+                    *ngIf="
+                      categoriesForm
+                        .get('categoriesDescription')
+                        ?.hasError('required')
+                    "
+                  >
+                    Categories Description is required.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      categoriesForm
+                        .get('categoriesDescription')
+                        ?.hasError('minlength')
+                    "
+                  >
+                    Categories Description must be at least 10 characters long.
+                  </mat-error>
+                </mat-form-field>
+              </div>
 
               <!-- Submit Button -->
               <div class="button-div mt-3">
@@ -67,9 +87,9 @@
       >
         <mat-card-header>
           <mat-card-title>
-            <h5 class="mt-0 mb-0">Category Leads</h5>
+            <h5 class="mt-0 mb-0">Product Category</h5>
           </mat-card-title>
-          <mat-card-subtitle>
+          <!-- <mat-card-subtitle>
             <button
               type="button"
               mat-button
@@ -88,7 +108,7 @@
               <button mat-menu-item>This Month</button>
               <button mat-menu-item>This Year</button>
             </mat-menu>
-          </mat-card-subtitle>
+          </mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content>
           <div class="recent-leads-table">

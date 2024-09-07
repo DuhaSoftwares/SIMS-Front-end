@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { CustomizerSettingsService } from '../../../internal-components/customizer-settings/customizer-settings.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BrandViewModel } from '../../../models/view/end-user/brand.viewmodel';
-import { BrandService } from '../../../services/brand.service';
+
 import { CommonService } from '../../../services/common.service';
 import { LogHandlerService } from '../../../services/log-handler.service';
 import { CategoriesViewModel } from '../../../models/view/end-user/categories.viewmodel';
@@ -73,7 +72,10 @@ export class CategoriesComponent
   ngOnInit(): void {
     this.categoriesForm = this.fb.group({
       categoriesName: ['', [Validators.required, Validators.minLength(3)]],
-      imagePath: [''],
+      categoriesDescription: [
+        '',
+        [Validators.required, Validators.minLength(10)],
+      ],
     });
   }
 
