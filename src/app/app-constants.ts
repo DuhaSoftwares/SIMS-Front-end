@@ -14,6 +14,7 @@ export const AppConstants = {
     FARM_URL: 'api/v1/Farm',
     WAREHOUSE: 'api/Warehouse',
     BRAND: 'api/Brand',
+    CATEGORY: 'api/Category',
   },
   DATABASE_KEYS: {
     ACCESS_TOKEN: 'ACCESS_TOKEN',

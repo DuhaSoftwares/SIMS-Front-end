@@ -8,9 +8,8 @@ import { CommonService } from '../../../services/common.service';
 import { LogHandlerService } from '../../../services/log-handler.service';
 import { CategoriesViewModel } from '../../../models/view/end-user/categories.viewmodel';
 import { PageEvent } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource } from '@angular/material/table';
-import { DataSource } from '@angular/cdk/table';
+import { CategoryService } from '../../../services/category.service';
+import { ProductCategorySM } from '../../../models/service-models/app/v1/product-category-sm';
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -26,7 +25,7 @@ export class CategoriesComponent
     public themeService: CustomizerSettingsService,
     commonService: CommonService,
     logHandlerService: LogHandlerService,
-    // private categoriesServices: CategoriesService,
+    private categoryService: CategoryService,
     private fb: FormBuilder
   ) {
     super(commonService, logHandlerService);
@@ -34,41 +33,6 @@ export class CategoriesComponent
   }
   categoriesForm!: FormGroup;
 
-  displayedColumns: string[] = [
-    'select',
-    'customer',
-    'email',
-    'source',
-    'status',
-    'action',
-  ];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.customer + 1
-    }`;
-  }
   ngOnInit(): void {
     this.categoriesForm = this.fb.group({
       categoriesName: ['', [Validators.required, Validators.minLength(3)]],
@@ -79,15 +43,199 @@ export class CategoriesComponent
     });
   }
 
-  onFileChange(event: any) {
-    const file = event.target.files[0];
-    this._commonService.convertFileToBase64(file).subscribe((base64) => {
-      this.viewModel.fileName = file.name;
-      this.viewModel.fileName.split('?')[0].split('.').pop();
-      // this.viewModel.brand.imagePath = base64;
-    });
+  override async loadPageData() {
+    try {
+      this._commonService.presentLoading();
+      await this.getTotatCategoriesCount();
+      let resp = await this.categoryService.getAllCategory(this.viewModel);
+      if (resp.isError) {
+        this._commonService.showSweetAlertConfirmation({
+          text: resp.errorData.displayMessage,
+          icon: 'error',
+        });
+      } else {
+        this.viewModel.categories = resp.successData;
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      this._commonService.dismissLoader();
+    }
   }
-  onSubmit() {}
+  async getTotatCategoriesCount() {
+    try {
+      await this._commonService.presentLoading();
+      let resp = await this.categoryService.getTotatCategoryCount();
+      if (resp.isError) {
+        await this._exceptionHandler.logObject(resp.errorData);
+        this._commonService.showSweetAlertToast({
+          title: 'Error!',
+          text: resp.errorData.displayMessage,
+          position: 'top-end',
+          icon: 'error',
+        });
+      } else {
+        this.viewModel.pagination.totalCount = resp.successData.intResponse;
+      }
+    } catch (error) {
+    } finally {
+      await this._commonService.dismissLoader();
+    }
+  }
+  async getCategoryById(id: number) {
+    try {
+      this._commonService.presentLoading();
+      this.viewModel.updateMode = true;
+      const resp = await this.categoryService.getCategoryById(id);
+      if (resp.isError) {
+        this._commonService.showSweetAlertConfirmation({
+          text: resp.errorData.displayMessage,
+          icon: 'error',
+        });
+      } else {
+        this.viewModel.singleCategory = resp.successData;
+        this.categoriesForm.patchValue({
+          categoriesName: this.viewModel.singleCategory.name,
+        });
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      this._commonService.dismissLoader();
+    }
+  }
+
+  async deleteCategoryById(id: number) {
+    try {
+      this._commonService.presentLoading();
+      const result = await this._commonService.showSweetAlertConfirmation({
+        text: 'Are you sure you want to delete this warehouse?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+      });
+
+      if (result.isConfirmed) {
+        const resp = await this.categoryService.deleteCategory(id);
+
+        if (resp.isError) {
+          await this._commonService.showSweetAlertConfirmation({
+            text: resp.errorData.displayMessage,
+            icon: 'error',
+          });
+        } else {
+          await this.loadPageData();
+          await this._commonService.showSweetAlertConfirmation({
+            text: 'Deleted successfully!',
+            icon: 'success',
+          });
+        }
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      this._commonService.dismissLoader();
+    }
+  }
+
+  // onFileChange(event: any) {
+  //   const file = event.target.files[0];
+  //   this._commonService.convertFileToBase64(file).subscribe((base64) => {
+  //     this.viewModel.fileName = file.name;
+  //     this.viewModel.fileName.split('?')[0].split('.').pop();
+  //     this.viewModel.brand.imagePath = base64;
+  //   });
+  // }
+  onSubmit(): void {
+    if (this.categoriesForm.invalid) {
+      this.categoriesForm.markAllAsTouched();
+    } else {
+      try {
+        if (this.viewModel.updateMode) {
+          this._commonService.presentLoading();
+          this.viewModel.singleCategory.name =
+            this.categoriesForm.get('categoriesName')?.value;
+          this.viewModel.singleCategory.description = this.categoriesForm.get(
+            'categoriesDescription'
+          )?.value;
+          this.updateCategory(this.viewModel.singleCategory);
+        } else {
+          this._commonService.presentLoading();
+          const formData = new FormData();
+          this.viewModel.singleCategory.name =
+            this.categoriesForm.get('categoriesName')?.value;
+          this.viewModel.singleCategory.description = this.categoriesForm.get(
+            'categoriesDescription'
+          )?.value;
+          this.addCategory(this.viewModel.singleCategory);
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        this._commonService.dismissLoader();
+      }
+    }
+  }
+  async addCategory(data: ProductCategorySM) {
+    try {
+      this._commonService.presentLoading();
+      if (data) {
+        let resp = await this.categoryService.addCategory(data);
+        if (resp.isError) {
+          this._commonService.showSweetAlertConfirmation({
+            text: resp.errorData.displayMessage,
+            icon: 'error',
+            title: 'Error',
+          });
+        } else {
+          await this.loadPageData();
+          this.viewModel.updateMode = false;
+
+          await this._commonService.showSweetAlertConfirmation({
+            text: 'Brand added successfully!',
+            icon: 'success',
+          });
+          this.categoriesForm.reset({ emitEvent: false });
+        }
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      this._commonService.dismissLoader();
+    }
+  }
+
+  async updateCategory(data: ProductCategorySM) {
+    try {
+      this._commonService.presentLoading();
+      if (data) {
+        let resp = await this.categoryService.updateCategory(data);
+        if (resp.isError) {
+          this._commonService.showSweetAlertConfirmation({
+            text: resp.errorData.displayMessage,
+            icon: 'error',
+            title: 'Error',
+          });
+        } else {
+          await this.loadPageData();
+          this.viewModel.updateMode = false;
+          await this._commonService.showSweetAlertConfirmation({
+            text: 'Brand Updated successfully!',
+            icon: 'success',
+          });
+          this.categoriesForm.reset({ emitEvent: false });
+        }
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      this._commonService.dismissLoader();
+    }
+  }
+
+  // Define the totalItems variable, typically set when data is loaded from the API
+
   async onPageChange(event: PageEvent) {
     const pageIndex = event.pageIndex;
     const pageSize = event.pageSize;
@@ -106,205 +254,4 @@ export class CategoriesComponent
       await this.loadPageData();
     }
   }
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    customer: {
-      img: 'assets/images/users/user1.jpg',
-      name: 'Carlos Daley',
-    },
-    email: 'carlos@daxa.com',
-    source: 'Website',
-    status: {
-      new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user2.jpg',
-      name: 'Dorothy Young',
-    },
-    email: 'dorothy@daxa.com',
-    source: 'Referral',
-    status: {
-      // new: 'New',
-      won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user3.jpg',
-      name: 'Greg Woody',
-    },
-    email: 'greg@daxa.com',
-    source: 'Cold Call',
-    status: {
-      // new: 'New',
-      // won: 'Won',
-      inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user4.jpg',
-      name: 'Deborah Rosol',
-    },
-    email: 'deborah@daxa.com',
-    source: 'Email Campaign',
-    status: {
-      // new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user5.jpg',
-      name: 'Kendall Allen',
-    },
-    email: 'kendall@daxa.com',
-    source: 'Online Store',
-    status: {
-      new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user6.jpg',
-      name: 'Mark Stjohn',
-    },
-    email: 'mark@daxa.com',
-    source: 'Online Store',
-    status: {
-      new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user7.jpg',
-      name: 'Joan Stanley',
-    },
-    email: 'joan@daxa.com',
-    source: 'Email Campaign',
-    status: {
-      new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user8.jpg',
-      name: 'Jacob Bell',
-    },
-    email: 'jacob@daxa.com',
-    source: 'Cold Call',
-    status: {
-      // new: 'New',
-      won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user9.jpg',
-      name: 'Donald Bryan',
-    },
-    email: 'donald@daxa.com',
-    source: 'Referral',
-    status: {
-      // new: 'New',
-      won: 'Won',
-      // inProgress: 'In Progress',
-      // lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-  {
-    customer: {
-      img: 'assets/images/users/user10.jpg',
-      name: 'Kristina Blomquist',
-    },
-    email: 'kristina@daxa.com',
-    source: 'Website',
-    status: {
-      // new: 'New',
-      // won: 'Won',
-      // inProgress: 'In Progress',
-      lost: 'Lost',
-    },
-    action: {
-      view: 'visibility',
-      edit: 'edit',
-      delete: 'delete',
-    },
-  },
-];
-
-export interface PeriodicElement {
-  customer: any;
-  email: string;
-  source: string;
-  status: any;
-  action: any;
 }
