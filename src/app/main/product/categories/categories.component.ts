@@ -41,12 +41,13 @@ export class CategoriesComponent
         [Validators.required, Validators.minLength(10)],
       ],
     });
+    this.loadPageData();
   }
 
   override async loadPageData() {
     try {
       this._commonService.presentLoading();
-      await this.getTotatCategoriesCount();
+      // await this.getTotatCategoriesCount();
       let resp = await this.categoryService.getAllCategory(this.viewModel);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
@@ -96,6 +97,9 @@ export class CategoriesComponent
         this.viewModel.singleCategory = resp.successData;
         this.categoriesForm.patchValue({
           categoriesName: this.viewModel.singleCategory.name,
+        });
+        this.categoriesForm.patchValue({
+          categoriesDescription: this.viewModel.singleCategory.description,
         });
       }
     } catch (error) {
@@ -193,7 +197,7 @@ export class CategoriesComponent
           this.viewModel.updateMode = false;
 
           await this._commonService.showSweetAlertConfirmation({
-            text: 'Brand added successfully!',
+            text: 'Category added successfully!',
             icon: 'success',
           });
           this.categoriesForm.reset({ emitEvent: false });
@@ -221,7 +225,7 @@ export class CategoriesComponent
           await this.loadPageData();
           this.viewModel.updateMode = false;
           await this._commonService.showSweetAlertConfirmation({
-            text: 'Brand Updated successfully!',
+            text: 'Category Updated successfully!',
             icon: 'success',
           });
           this.categoriesForm.reset({ emitEvent: false });
