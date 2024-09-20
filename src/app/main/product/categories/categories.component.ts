@@ -36,10 +36,6 @@ export class CategoriesComponent
   ngOnInit(): void {
     this.categoriesForm = this.fb.group({
       categoriesName: ['', [Validators.required, Validators.minLength(3)]],
-      categoriesDescription: [
-        '',
-        [Validators.required, Validators.minLength(10)],
-      ],
     });
     this.loadPageData();
   }
@@ -97,9 +93,6 @@ export class CategoriesComponent
         this.viewModel.singleCategory = resp.successData;
         this.categoriesForm.patchValue({
           categoriesName: this.viewModel.singleCategory.name,
-        });
-        this.categoriesForm.patchValue({
-          categoriesDescription: this.viewModel.singleCategory.description,
         });
       }
     } catch (error) {
@@ -160,18 +153,16 @@ export class CategoriesComponent
           this._commonService.presentLoading();
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-          this.viewModel.singleCategory.description = this.categoriesForm.get(
-            'categoriesDescription'
-          )?.value;
+          this.viewModel.singleCategory.level = 1;
           this.updateCategory(this.viewModel.singleCategory);
         } else {
           this._commonService.presentLoading();
           const formData = new FormData();
+          this.viewModel.singleCategory.level = 1;
+
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-          this.viewModel.singleCategory.description = this.categoriesForm.get(
-            'categoriesDescription'
-          )?.value;
+
           this.addCategory(this.viewModel.singleCategory);
         }
       } catch (error) {

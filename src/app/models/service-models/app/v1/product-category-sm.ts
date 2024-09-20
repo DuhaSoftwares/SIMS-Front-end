@@ -1,9 +1,11 @@
 import { SIMSServiceModelBase } from '../base/sims-service-model-base';
-import { CategoryStatusSM } from '../enums/category-status-s-m.enum';
+import { CategoryLevelSM } from '../enums/category-status-s-m.enum';
 
 export class ProductCategorySM extends SIMSServiceModelBase<number> {
+  override id!: number;
   name!: string;
-  description!: string;
-  status!: CategoryStatusSM;
+  levelId!: number;
+  level!: CategoryLevelSM;
+  status!: boolean;
   productCout!: number;
 }

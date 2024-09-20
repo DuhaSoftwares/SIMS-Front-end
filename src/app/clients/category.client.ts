@@ -1,5 +1,3 @@
-import { CategoryStatusSM } from './../models/service-models/app/enums/category-status-s-m.enum';
-import { CacheItem } from './../models/internal/cache-item';
 import { Injectable } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { BaseApiClient } from './base-client/base-api.client';
@@ -9,7 +7,6 @@ import { ApiResponse } from '../models/service-models/foundation/api-contracts/b
 import { AppConstants } from '../app-constants';
 import { ApiRequest } from '../models/service-models/foundation/api-contracts/base/api-request';
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
-import { BrandSM } from '../models/service-models/app/v1/brand-s-m';
 import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
 import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
 import { ProductCategorySM } from '../models/service-models/app/v1/product-category-sm';
