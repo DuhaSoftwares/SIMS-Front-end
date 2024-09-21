@@ -36,18 +36,18 @@ export class CategoriesComponent
   ngOnInit(): void {
     this.categoriesForm = this.fb.group({
       categoriesName: ['', [Validators.required, Validators.minLength(3)]],
-      categoriesDescription: [
-        '',
-        [Validators.required, Validators.minLength(10)],
-      ],
     });
+<<<<<<< HEAD
     this.loadPageData()
+=======
+    this.loadPageData();
+>>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
   }
 
   override async loadPageData() {
     try {
       this._commonService.presentLoading();
-      await this.getTotatCategoriesCount();
+      // await this.getTotatCategoriesCount();
       let resp = await this.categoryService.getAllCategory(this.viewModel);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
@@ -158,18 +158,28 @@ export class CategoriesComponent
           this._commonService.presentLoading();
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
+<<<<<<< HEAD
           // this.viewModel.singleCategory.description = this.categoriesForm.get(
           //   'categoriesDescription'
           // )?.value;
+=======
+          this.viewModel.singleCategory.level = 1;
+>>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
           this.updateCategory(this.viewModel.singleCategory);
         } else {
           this._commonService.presentLoading();
           const formData = new FormData();
+          this.viewModel.singleCategory.level = 1;
+
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
+<<<<<<< HEAD
           // this.viewModel.singleCategory.description = this.categoriesForm.get(
           //   'categoriesDescription'
           // )?.value;
+=======
+
+>>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
           this.addCategory(this.viewModel.singleCategory);
         }
       } catch (error) {
@@ -195,7 +205,7 @@ export class CategoriesComponent
           this.viewModel.updateMode = false;
 
           await this._commonService.showSweetAlertConfirmation({
-            text: 'Brand added successfully!',
+            text: 'Category added successfully!',
             icon: 'success',
           });
           this.categoriesForm.reset({ emitEvent: false });
@@ -223,7 +233,7 @@ export class CategoriesComponent
           await this.loadPageData();
           this.viewModel.updateMode = false;
           await this._commonService.showSweetAlertConfirmation({
-            text: 'Brand Updated successfully!',
+            text: 'Category Updated successfully!',
             icon: 'success',
           });
           this.categoriesForm.reset({ emitEvent: false });

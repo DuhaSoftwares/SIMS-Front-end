@@ -37,7 +37,7 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="form-group mt-3">
+              <!-- <div class="form-group mt-3">
                 <label class="main-label d-block mb-13 lh-1 text-black"
                   >Category Description</label
                 >
@@ -63,7 +63,7 @@
                     Categories Description must be at least 10 characters long.
                   </mat-error>
                 </mat-form-field>
-              </div>
+              </div> -->
 
               <!-- Submit Button -->
               <div class="button-div mt-3">
@@ -93,7 +93,7 @@
                 <tr>
                   <th scope="col" class="fw-medium text-black">ID</th>
                   <th scope="col" class="fw-medium text-black">Name</th>
-                  <th scope="col" class="fw-medium text-black">Description</th>
+                  <th scope="col" class="fw-medium text-black">Status</th>
                   <th scope="col" class="fw-medium text-black">Action</th>
                 </tr>
               </thead>
@@ -101,7 +101,12 @@
                 <tr *ngFor="let category of viewModel.categories">
                   <td class="text-body">{{ category.id }}</td>
                   <td>{{ category.name }}</td>
+<<<<<<< HEAD
                   <!-- <td>{{ category.description }}</td> -->
+=======
+
+                  <td>{{ category.status }}</td>
+>>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
 
                   <td>
                     <div
