@@ -171,7 +171,7 @@ export class WarehouseComponent
       isActive: [true],
     });
   }
-  
+
   async openAddEditWarehouseModal(id: number) {
     this.viewModel.displayStyle = 'block';
     this.viewModel.AddEditWarehouseModalTitle =id > 0 ? 'Update Warehouse' : 'Add Warehouse';

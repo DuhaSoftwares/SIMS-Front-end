@@ -41,6 +41,7 @@ export class CategoriesComponent
         [Validators.required, Validators.minLength(10)],
       ],
     });
+    this.loadPageData()
   }
 
   override async loadPageData() {
@@ -55,6 +56,7 @@ export class CategoriesComponent
         });
       } else {
         this.viewModel.categories = resp.successData;
+        console.log(this.viewModel.categories)
       }
     } catch (error) {
       throw error;
@@ -156,18 +158,18 @@ export class CategoriesComponent
           this._commonService.presentLoading();
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-          this.viewModel.singleCategory.description = this.categoriesForm.get(
-            'categoriesDescription'
-          )?.value;
+          // this.viewModel.singleCategory.description = this.categoriesForm.get(
+          //   'categoriesDescription'
+          // )?.value;
           this.updateCategory(this.viewModel.singleCategory);
         } else {
           this._commonService.presentLoading();
           const formData = new FormData();
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-          this.viewModel.singleCategory.description = this.categoriesForm.get(
-            'categoriesDescription'
-          )?.value;
+          // this.viewModel.singleCategory.description = this.categoriesForm.get(
+          //   'categoriesDescription'
+          // )?.value;
           this.addCategory(this.viewModel.singleCategory);
         }
       } catch (error) {
