@@ -29,10 +29,11 @@ export class layoutVM{
   showNavigation:boolean=true;
   showDefaultClass:boolean=true;
   showCustomSettings:boolean=true;
-  topNavExpand="top-nav-expand"
-  sideNavExpand="side-nav-expand"
-  displayAreaExpand="display-area-expand"
-  displayLoginArea="display-login-area"
+  topNavExpand="header"
+  sideNavExpand:boolean=true;
+  displayAreaExpand="container-fluid"
+  displayLoginArea="display-login-area";
+  showSideAndTopNav:boolean=true;
   sideMenuItems: {
     itemRoute: string;
     permission: boolean;

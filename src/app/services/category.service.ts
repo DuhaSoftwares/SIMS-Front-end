@@ -11,7 +11,8 @@ import { BrandViewModel } from '../models/view/end-user/brand.viewmodel';
 import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
 import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
 import { CategoryClient } from '../clients/category.client';
-import { ProductCategorySM } from '../models/service-models/app/v1/product-category-sm';
+import { ProductCategorySM } from '../models/service-models/app/v1/product-category-s-m';
+import { CategoriesSM } from '../models/service-models/app/v1/categories-s-m';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class CategoryService extends BaseService {
    */
   async getAllCategory(
     viewModel: CategoriesViewModel
-  ): Promise<ApiResponse<ProductCategorySM[]>> {
+  ): Promise<ApiResponse<CategoriesSM[]>> {
     let queryFilter = new QueryFilter();
     queryFilter.skip =
       (viewModel.pagination.PageNo - 1) * viewModel.pagination.PageSize;

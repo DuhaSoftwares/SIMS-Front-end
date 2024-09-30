@@ -30,14 +30,14 @@ export const routes: Routes = [
     ]
 },
   {path:'dashboard',component:DashboardComponent, canActivate: [AuthGuard],
-       data: {
-      allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
-    },
+    data: {
+   allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+  },
   },
   {path:'warehouse',component:WarehouseComponent, canActivate: [AuthGuard],
     data: {
    allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
- },
+  },
 },
 { path: '', loadChildren: () => import('./main/product/product.module').then(m => m.ProductModule), canActivate: [AuthGuard],
   data: {

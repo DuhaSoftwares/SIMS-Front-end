@@ -5,13 +5,17 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root'
 })
 export class ToggleService {
-
-    private isSidebarToggled = new BehaviorSubject<boolean>(false);
-    get isSidebarToggled$() {
-        return this.isSidebarToggled.asObservable();
+ headerWrapper:string="";
+    private sidebarVisibilitySubject = new BehaviorSubject<boolean>(true);
+    sidebarVisibility$ = this.sidebarVisibilitySubject.asObservable();
+    toggleSidebar() {
+      this.sidebarVisibilitySubject.next(!this.sidebarVisibilitySubject.value);
+    
     }
-    toggle() {
-        this.isSidebarToggled.next(!this.isSidebarToggled.value);
+
+    wrapElements(){
+     this.headerWrapper='headerClose'
+        return this.headerWrapper
     }
 
 }

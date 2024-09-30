@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomizerSettingsService } from '../../internal-components/customizer-settings/customizer-settings.service';
-import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { WarehouseService } from '../../services/warehouse.service';
 import { CommonService } from '../../services/common.service';
 import { BaseComponent } from '../../internal-components/other-components/base.component';
@@ -12,11 +7,8 @@ import { LogHandlerService } from '../../services/log-handler.service';
 import { WarehouseViewModel } from '../../models/view/end-user/warehouse.viewmodel';
 import {
   FormBuilder,
-  FormsModule,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { WareHouseSM } from '../../models/service-models/app/v1/warehouse-s-m';
 import { StorageTypeSM } from '../../models/service-models/app/enums/warehouse-storage-type-s-m.enum';
 import { SharedModule } from '../../shared/shared.module';
@@ -33,6 +25,14 @@ import { SharedModule } from '../../shared/shared.module';
 export class WarehouseComponent
   extends BaseComponent<WarehouseViewModel>
   implements OnInit {
+    rows: any[] = [];  // This will hold the table data
+    columns: any[] = []; // This will define the table columns
+    pageSize!:number;
+    count!:number;
+    limit!:number;
+    pagination!:boolean;
+    filteredRows:any = []; // Data to display in the datatable
+    searchTerm = '';
   constructor(
     public themeService: CustomizerSettingsService,
     private fb: FormBuilder,
@@ -41,6 +41,7 @@ export class WarehouseComponent
     logHandlerService: LogHandlerService
   ) {
     super(commonService, logHandlerService);
+   
     // viewmodel
     this.viewModel = new WarehouseViewModel();
     this.createForm();
@@ -56,18 +57,10 @@ export class WarehouseComponent
   }
 
   async ngOnInit() {
+    console.log('ngOnInit called');
     await this.loadPageData();
+    this.filteredRows = this.rows;
 
-  }
-
-  // Dark Mode
-  toggleTheme() {
-    this.themeService.toggleTheme();
-  }
-
-  // RTL Mode
-  toggleRTLEnabledTheme() {
-    this.themeService.toggleRTLEnabledTheme();
   }
 
   override async loadPageData() {
@@ -84,6 +77,18 @@ export class WarehouseComponent
         });
       } else {
         this.viewModel.warehouses = resp.successData;
+        console.log(this.viewModel.warehouses)
+        this.rows = this.viewModel.warehouses; // or assign your data here
+        this.columns = [
+          { prop: 'name', name: 'Name' },
+          { prop: 'description', name: 'Description' },
+          { prop: 'location', name: 'Location' },
+          { prop: 'contactNumber', name: 'Contact Number' },
+          { prop: 'emailId', name: 'Email ID' },
+          { prop: 'storageType', name: 'Storage Type' },
+          { prop: 'capacity', name: 'Capacity' },
+          { prop: 'isActive', name: 'Active Status' },
+        ];
       }
     } catch (error) {
       throw error;
@@ -92,7 +97,32 @@ export class WarehouseComponent
       this._commonService.dismissLoader()
     }
   }
+  async onPageChange(event: any) {
+    const pageIndex = event.pageIndex;
+    const pageSize = event.pageSize;
 
+    this.viewModel.pagination.PageNo = pageIndex + 1; // Adjust to 1-based index
+    this.viewModel.pagination.PageSize = pageSize;
+
+    // Load the data for the selected page
+    await this.loadPageDataWithPagination(this.viewModel.pagination.PageNo);
+  }
+  filterRows() {
+    if (!this.searchTerm) {
+      this.filteredRows = this.rows;
+    } else {
+      this.filteredRows = this.rows.filter(row => 
+        Object.values(row).some(value => 
+          String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
+      );
+    }
+  }
+  async loadPageDataWithPagination(pageNumber: number) {
+    if (pageNumber && pageNumber > 0) {
+      await this.loadPageData(); // This will fetch data based on the updated page number
+    }
+  }
   async deleteWareHouseById(id: number) {
     try {
       this._commonService.presentLoading()

@@ -9,7 +9,8 @@ import { ApiRequest } from '../models/service-models/foundation/api-contracts/ba
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
 import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
 import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
-import { ProductCategorySM } from '../models/service-models/app/v1/product-category-sm';
+import { ProductCategorySM } from '../models/service-models/app/v1/product-category-s-m';
+import { CategoriesSM } from '../models/service-models/app/v1/categories-s-m';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,8 +24,8 @@ export class CategoryClient extends BaseApiClient {
   }
   GetAllCategory = async (
     queryFilter: QueryFilter
-  ): Promise<ApiResponse<ProductCategorySM[]>> => {
-    let resp = await this.GetResponseAsync<null, ProductCategorySM[]>(
+  ): Promise<ApiResponse<CategoriesSM[]>> => {
+    let resp = await this.GetResponseAsync<null, CategoriesSM[]>(
       `${AppConstants.API_ENDPOINTS.CATEGORY}?skip=${queryFilter.skip}&top=${queryFilter.top}`,
       'GET'
     );

@@ -12,5 +12,6 @@ import { CommonService } from '../../services/common.service';
 export class AuthenticationComponent {
     constructor(private commonService:CommonService){
         this.commonService.layoutVM.showCustomSettings=false;
+        this.commonService.layoutVM.showSideAndTopNav=false;
     }
 }

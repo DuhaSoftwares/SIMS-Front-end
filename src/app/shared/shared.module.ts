@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatTableModule } from '@angular/material/table';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
     ReactiveFormsModule,
     RouterModule,
     PaginationComponent,
+    NgxDatatableModule
   ],
   exports: [
     CommonModule,
@@ -42,6 +44,7 @@ import { MatTableModule } from '@angular/material/table';
     MatCheckboxModule,
     CdkTableModule,
     MatTableModule,
+    NgxDatatableModule
   ],
   declarations: [],
   providers: [DatePipe],

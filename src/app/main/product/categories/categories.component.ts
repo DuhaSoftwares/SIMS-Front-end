@@ -9,7 +9,7 @@ import { LogHandlerService } from '../../../services/log-handler.service';
 import { CategoriesViewModel } from '../../../models/view/end-user/categories.viewmodel';
 import { PageEvent } from '@angular/material/paginator';
 import { CategoryService } from '../../../services/category.service';
-import { ProductCategorySM } from '../../../models/service-models/app/v1/product-category-sm';
+import { ProductCategorySM } from '../../../models/service-models/app/v1/product-category-s-m';
 @Component({
   selector: 'app-categories',
   standalone: true,
@@ -37,11 +37,7 @@ export class CategoriesComponent
     this.categoriesForm = this.fb.group({
       categoriesName: ['', [Validators.required, Validators.minLength(3)]],
     });
-<<<<<<< HEAD
     this.loadPageData()
-=======
-    this.loadPageData();
->>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
   }
 
   override async loadPageData() {
@@ -57,6 +53,7 @@ export class CategoriesComponent
       } else {
         this.viewModel.categories = resp.successData;
         console.log(this.viewModel.categories)
+        
       }
     } catch (error) {
       throw error;
@@ -158,13 +155,11 @@ export class CategoriesComponent
           this._commonService.presentLoading();
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-<<<<<<< HEAD
           // this.viewModel.singleCategory.description = this.categoriesForm.get(
           //   'categoriesDescription'
           // )?.value;
-=======
           this.viewModel.singleCategory.level = 1;
->>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
+
           this.updateCategory(this.viewModel.singleCategory);
         } else {
           this._commonService.presentLoading();
@@ -173,13 +168,9 @@ export class CategoriesComponent
 
           this.viewModel.singleCategory.name =
             this.categoriesForm.get('categoriesName')?.value;
-<<<<<<< HEAD
           // this.viewModel.singleCategory.description = this.categoriesForm.get(
           //   'categoriesDescription'
           // )?.value;
-=======
-
->>>>>>> 67e6c5bb52a96fd0b5d97e54b0a859f1ea198a59
           this.addCategory(this.viewModel.singleCategory);
         }
       } catch (error) {
