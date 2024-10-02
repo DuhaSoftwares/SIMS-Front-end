@@ -26,8 +26,11 @@ export class SidebarComponent extends BaseComponent<SideNavViewModel> implements
   constructor(commonService:CommonService,exceptionHandler:LogHandlerService,private sidebarService: ToggleService) {
     super(commonService,exceptionHandler)
   }
-
+  isDropdownOpen = false;
   ngOnInit() {
+  }
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
   isSidebarCollapsed = false;
   isSidebarExpanded = false;

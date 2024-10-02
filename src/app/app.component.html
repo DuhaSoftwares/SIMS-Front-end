@@ -1,7 +1,9 @@
-<div class="content">
+<div class="content" [ngClass]="{ 'no-nav': !_commonService.layoutVM.showSideAndTopNav }">
   <app-header *ngIf="_commonService.layoutVM.showSideAndTopNav"></app-header>
-    <app-sidebar *ngIf="_commonService.layoutVM.showSideAndTopNav"></app-sidebar>
-<div class="container-fluid Main" [ngClass]="{ 'ExtendMain': !_commonService.layoutVM.sideNavExpand, 'Main': _commonService.layoutVM.sideNavExpand }">  
+  <app-sidebar *ngIf="_commonService.layoutVM.showSideAndTopNav"></app-sidebar>
+
+  <div class="container-fluid Main" 
+       [ngClass]="{ 'ExtendMain': !_commonService.layoutVM.sideNavExpand, 'Main': _commonService.layoutVM.sideNavExpand }">
     <router-outlet></router-outlet>
-</div>
+  </div>
 </div>

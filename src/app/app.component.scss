@@ -1,24 +1,34 @@
-.content{
+.content {
     height: 100vh;
     width: 100%;
     position: relative;
 }
-.Main{
-    margin-left: 250px; /* Space for the sidebar */
+
+.Main {
+    margin-left: 190px; /* Space for the sidebar */
     margin-top: 60px; /* Space for the header */
     height: calc(100vh - 60px); /* Full height minus header */
     overflow-y: auto; /* Scroll if content exceeds */
     padding: 20px; /* Padding for content */
     position: fixed;
-    width: calc(100% - 250px);
+    width: calc(100% - 190px);
     transition: all 0.5s ease;
 }
-.ExtendMain{
-    margin-left: 51px;
-    margin-top: 60px; /* Space for the header */
-    height: calc(100vh - 60px); /* Full height minus header */
-    overflow-y: auto; /* Scroll if content exceeds */
-    padding: 20px; /* Padding for content */
+
+.ExtendMain {
+    margin-left: 51px; /* Space for collapsed sidebar */
+    margin-top: 60px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 20px;
     position: fixed;
     transition: all 0.5s ease;
+}
+
+/* Adjust layout when sidebar and header are hidden */
+.no-nav .Main, .no-nav .ExtendMain {
+    margin-left: 0; /* Remove space for sidebar */
+    margin-top: 0; /* Remove space for header */
+    width: 100%; /* Use full width */
+    height: 100vh; /* Full height */
 }

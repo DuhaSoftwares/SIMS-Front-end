@@ -48,9 +48,10 @@ export class SignInComponent extends BaseComponent<LoginViewModel> implements On
         });
     }
 
-    rememberMeValue(){
-       this.viewModel.rememberMe=true
-    }
+rememberMeValue(event: Event) {
+  const checkbox = event.target as HTMLInputElement;
+  this.viewModel.rememberMe = checkbox.checked; // true if checked, false if unchecked
+}
     // Password Hide
     async onSubmit() {
         try {

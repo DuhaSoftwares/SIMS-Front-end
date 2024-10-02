@@ -8,6 +8,8 @@ import { AppConstants } from '../app-constants';
 import { ApiRequest } from '../models/service-models/foundation/api-contracts/base/api-request';
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
 import { WareHouseSM } from '../models/service-models/app/v1/warehouse-s-m'
+import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
+import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,13 +23,16 @@ export class WarehouseClient extends BaseApiClient {
   }
 
   /**Get all Warehouses */
-  GetAllWarehouses = async (): Promise<ApiResponse<WareHouseSM[]>> => {
-    let resp = await this.GetResponseAsync<number, WareHouseSM[]>(
-      `${AppConstants.API_ENDPOINTS.WAREHOUSE}/my`,
-      'GET'
-    );
+
+  GetAllWarehouses = async (queryFilter:QueryFilter): Promise<ApiResponse<WareHouseSM[]>> => {
+    let resp = await this.GetResponseAsync<null, WareHouseSM[]>(`${AppConstants.API_ENDPOINTS.WAREHOUSE}/my?skip=${queryFilter.skip}&top=${queryFilter.top}`, 'GET');
     return resp;
   };
+
+  GetTotatWareHouseCount = async (): Promise<ApiResponse<IntResponseRoot>> => {
+    let resp = await this.GetResponseAsync<null, IntResponseRoot>(`${AppConstants.API_ENDPOINTS.BRAND}/count`, 'GET');
+    return resp;
+    }
 
   /**delete wareshouse by id */
   DeleteWarehouseById = async (

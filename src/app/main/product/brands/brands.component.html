@@ -46,14 +46,7 @@
       </div>
     </div>
     <div class="col-lg-8">
-      <mat-card
-        class="daxa-card users-card mb-25 border-radius bg-white border-none d-block"
-        [class.component-dark-theme]="themeService.isDark()"
-        [class.rtl-enabled]="themeService.isRTLEnabled()"
-      >
-        <mat-card-content>
-          <div class="users-table">
-            <table>
+            <table class="table table table-striped table-bordered">
               <thead>
                 <tr>
                   <th scope="col" class="fw-medium text-black">ID</th>
@@ -69,39 +62,18 @@
                   <td class="text-body">
                     <div class="info d-flex align-items-center">
                       <div class="image">
-                        <img *ngIf="!brand.imagePath" src="https://thumbs.dreamstime.com/b/blog-computer-tablet-cloud-text-work-desk-47237130.jpg" alt="blog-image" loading="lazy">
+                        <img *ngIf="!brand.imagePath" src="https://thumbs.dreamstime.com/b/blog-computer-tablet-cloud-text-work-desk-47237130.jpg" alt="blog-image" height="40" width="40" loading="lazy">
                         <img *ngIf="brand.imagePath" [src]="'data:image/jpeg;base64,' +brand.imagePath" alt="brand-image" loading="lazy">
                       </div>
                     </div>
                   </td>
-                  <td>
-                    <div class="action-info d-flex align-items-center justify-content-end">
-                      <button
-                        type="button"
-                        class="text-body"
-                        mat-button
-                        matTooltip="Edit"
-                        matTooltipPosition="above"
-                        (click)="getBrandById(brand.id)"
-                      >
-                        <i class="material-symbols-outlined"> edit </i>
-                      </button>
-                      <button
-                        type="button"
-                        class="text-body"
-                        mat-button
-                        matTooltip="Delete"
-                        matTooltipPosition="above"
-                        (click)="deleteBrandById(brand.id)"
-                      >
-                        <i class="material-symbols-outlined"> delete </i>
-                      </button>
-                    </div>
+                  <td class="action-info d-flex align-items-center justify-content-between">        
+                        <i class="fa fa-pencil" (click)="getBrandById(brand.id)"></i>
+                        <i class="fa fa-trash" (click)="deleteBrandById(brand.id)"></i>
                   </td>
                 </tr>
               </tbody>
             </table>
-          </div>
           <mat-paginator
             [length]="viewModel.pagination.totalCount"
             [pageSizeOptions]="[5, 10, 20]"
@@ -109,9 +81,5 @@
             showFirstLastButtons
             (page)="onPageChange($event)">
           </mat-paginator>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    
   </div>
 </div>

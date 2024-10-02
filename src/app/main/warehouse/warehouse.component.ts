@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CustomizerSettingsService } from '../../internal-components/customizer-settings/customizer-settings.service';
 import { WarehouseService } from '../../services/warehouse.service';
 import { CommonService } from '../../services/common.service';
@@ -25,14 +25,6 @@ import { SharedModule } from '../../shared/shared.module';
 export class WarehouseComponent
   extends BaseComponent<WarehouseViewModel>
   implements OnInit {
-    rows: any[] = [];  // This will hold the table data
-    columns: any[] = []; // This will define the table columns
-    pageSize!:number;
-    count!:number;
-    limit!:number;
-    pagination!:boolean;
-    filteredRows:any = []; // Data to display in the datatable
-    searchTerm = '';
   constructor(
     public themeService: CustomizerSettingsService,
     private fb: FormBuilder,
@@ -57,19 +49,15 @@ export class WarehouseComponent
   }
 
   async ngOnInit() {
-    console.log('ngOnInit called');
     await this.loadPageData();
-    this.filteredRows = this.rows;
-
   }
 
-  override async loadPageData() {
-    /**
-     * Retrieves all warehouses from the server and updates the component's view model.
-     */
+   override async loadPageData() {
     try {
-      this._commonService.presentLoading()
-      let resp = await this.warehouseService.getAllWarehouses();
+      this._commonService.presentLoading();
+      await this.getTotatWareHouseCount();  // Assuming this method exists
+
+      const resp = await this.warehouseService.getAllWareHouses(this.viewModel);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({
           text: resp.errorData.displayMessage,
@@ -77,24 +65,31 @@ export class WarehouseComponent
         });
       } else {
         this.viewModel.warehouses = resp.successData;
-        console.log(this.viewModel.warehouses)
-        this.rows = this.viewModel.warehouses; // or assign your data here
-        this.columns = [
-          { prop: 'name', name: 'Name' },
-          { prop: 'description', name: 'Description' },
-          { prop: 'location', name: 'Location' },
-          { prop: 'contactNumber', name: 'Contact Number' },
-          { prop: 'emailId', name: 'Email ID' },
-          { prop: 'storageType', name: 'Storage Type' },
-          { prop: 'capacity', name: 'Capacity' },
-          { prop: 'isActive', name: 'Active Status' },
-        ];
       }
     } catch (error) {
-      throw error;
+      console.error(error);
+    } finally {
+      this._commonService.dismissLoader();
     }
-    finally {
-      this._commonService.dismissLoader()
+  }
+  async getTotatWareHouseCount() {
+    try {
+      await this._commonService.presentLoading();
+      let resp = await this.warehouseService.getTotatWareHouseCount();
+      if (resp.isError) {
+        await this._exceptionHandler.logObject(resp.errorData);
+        this._commonService.showSweetAlertToast({
+          title: 'Error!',
+          text: resp.errorData.displayMessage,
+          position: 'top-end',
+          icon: 'error'
+        });
+      } else {
+        this.viewModel.pagination.totalCount = resp.successData.intResponse;
+      }
+    } catch (error) {
+    } finally {
+      await this._commonService.dismissLoader();
     }
   }
   async onPageChange(event: any) {
@@ -107,17 +102,7 @@ export class WarehouseComponent
     // Load the data for the selected page
     await this.loadPageDataWithPagination(this.viewModel.pagination.PageNo);
   }
-  filterRows() {
-    if (!this.searchTerm) {
-      this.filteredRows = this.rows;
-    } else {
-      this.filteredRows = this.rows.filter(row => 
-        Object.values(row).some(value => 
-          String(value).toLowerCase().includes(this.searchTerm.toLowerCase())
-        )
-      );
-    }
-  }
+
   async loadPageDataWithPagination(pageNumber: number) {
     if (pageNumber && pageNumber > 0) {
       await this.loadPageData(); // This will fetch data based on the updated page number
@@ -229,7 +214,8 @@ export class WarehouseComponent
   // adding warehouse
   async addWarehouse(data: WareHouseSM) {
     try {
-      this._commonService.presentLoading()
+      this._commonService.presentLoading();
+      console.log(data)
       if (data) {
         let resp = await this.warehouseService.addWarehouse(data);
         if (resp.isError) {

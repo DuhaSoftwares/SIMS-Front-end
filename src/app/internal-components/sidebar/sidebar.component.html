@@ -1,21 +1,15 @@
+
+
 <div class="sidebar" [ngClass]="{ 'wrapSidebar': !_commonService.layoutVM.sideNavExpand, 'sidebar': _commonService.layoutVM.sideNavExpand }">
-  <div class="logo">
-      <!-- Logo can go here -->
-       
+    <a routerLink="/dashboard" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i> Dashboard</a>
+    <button class="dropdown-btn" (click)="toggleDropdown()">Products <i class="fa fa-caret-down"></i></button>
+    <div class="dropdown-container" [ngStyle]="{ display: isDropdownOpen ? 'block' : 'none' }">
+        <a routerLink="product/add-product" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Add Product</a>
+        <a routerLink="product/product-list" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Product list</a>
+        <a routerLink="product/categories" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Category</a>
+        <a routerLink="product/brands" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Brands</a>
+        <a routerLink="product/units" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Units</a>
+        <a routerLink="product/variant" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Variants</a>
+    </div>
+    <a  routerLink="/warehouse"    routerLinkActive="active"><i class="fa fa-fw fa-wrench"></i> WareHouse</a>
   </div>
-  <ul>
-  <li>
-    <a routerLink="/dashboard" activeroute=""  routerLinkActive="active">
-        <span class="icon"><i class="fa fa-tachometer"></i></span>
-        <span class="item">Dashboard</span>
-    </a>
-   </li>
-   <li>
-    <a routerLink="/warehouse"    routerLinkActive="active">
-        <span class="icon"><i class="fa fa-building"></i></span>
-        <span class="item">WareHouse</span>
-    </a>
-   </li>
-       <!-- Repeat for other menu items -->
-  </ul>
-</div>

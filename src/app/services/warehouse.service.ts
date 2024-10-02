@@ -6,6 +6,9 @@ import { WarehouseClient } from '../clients/warehouse.client';
 import { AppConstants } from '../app-constants';
 import { DeleteResponseRoot } from '../models/service-models/foundation/common-response/delete-response-root';
 import { ApiRequest } from '../models/service-models/foundation/api-contracts/base/api-request';
+import { WarehouseViewModel } from '../models/view/end-user/warehouse.viewmodel';
+import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
+import { IntResponseRoot } from '../models/service-models/foundation/common-response/int-response-root';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +20,16 @@ export class WarehouseService extends BaseService {
     super();
   }
 
-  async getAllWarehouses(): Promise<ApiResponse<WareHouseSM[]>> {
-    return await this.warehouseClient.GetAllWarehouses();
-  }
+  async getAllWareHouses(viewModel:WarehouseViewModel): Promise<ApiResponse<WareHouseSM[]>> {
+    let queryFilter = new QueryFilter();
+    queryFilter.skip = (viewModel.pagination.PageNo - 1) * viewModel.pagination.PageSize;
+    queryFilter.top = viewModel.pagination.PageSize
+    return await this.warehouseClient.GetAllWarehouses(queryFilter);
+}
 
+async getTotatWareHouseCount(): Promise<ApiResponse<IntResponseRoot>> {
+  return await this.warehouseClient.GetTotatWareHouseCount()
+  }
   async deleteWarehouse(id: number): Promise<ApiResponse<DeleteResponseRoot>> {
     if (id <= 0) {
       throw new Error(AppConstants.ERROR_PROMPTS.Delete_Data_Error);

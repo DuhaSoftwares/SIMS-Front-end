@@ -1,81 +1,81 @@
-.sidebar {
-    width: 250px; 
-    background-color: rgb(5, 68, 104);
-    position: fixed; 
-    top: 0; 
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    bottom: 0; 
-    transition: width 0.5s ease;
-}
+
 
 .wrapSidebar {
     width: 50px; 
-    background-color: rgb(5, 68, 104);
+    background-color: white;
     position: fixed; 
     top: 0; 
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     bottom: 0; 
     transition: width 0.5s ease;
 }
-
-.logo {
-    margin-bottom: 30px;
-    text-align: center;
-    width: 100%; /* Ensure it takes full width */
-    height: 100px; /* Adjust height as needed */
-    color: white; /* Change as needed */
-}
-
-.item {
-    display: inline; /* Ensure item class elements are displayed inline */
-}
-
-/* Hide text items in wrapSidebar */
-.wrapSidebar .item {
-    display: none; /* Hide text items */
-}
-
-ul {
-    list-style: none;
-    padding: 0; /* Remove default padding */
-    margin: 0; /* Remove default margin */
-}
-
-.sidebar ul li a {
-    display: flex; /* Use flexbox to align items */
-    align-items: center; /* Center items vertically */
-    padding: 13px 10px; /* Adjust padding */
-    border-bottom: 1px solid #10558d;
-    color: rgb(241, 237, 237);
-    font-size: 16px;
-    position: relative;
-    white-space: nowrap; /* Prevent text from wrapping */
-}
-
-.wrapSidebar ul li a {
-    padding: 13px 5px; /* Smaller padding when wrapped */
-    justify-content: center; /* Center icons */
-}
-
-.sidebar ul li a .icon {
-    color: #dee4ec;
-    width: 30px;
-    display: inline-block;
-}
-
-.sidebar ul li a:hover,
-.sidebar ul li a.active {
-    color: #0c7db1;
-    background: white;
-    border-right: 2px solid rgb(5, 68, 104);
-}
-
-.sidebar ul li a:hover .icon,
-.sidebar ul li a.active .icon {
-    color: #335aac;
-}
-
-.wrapSidebar ul li a:hover .icon,
-.wrapSidebar ul li a.active .icon {
-    color: #e7e1e2;
-}
+.sidebar {
+    height: 100%;
+    width: 190px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    padding-top: 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+  .sidebar a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #070707;
+    display: block;
+  }
+  
+  /* Style links on mouse-over */
+  .sidebar a:hover {
+    color: #519bf0;
+  }
+  
+  /* Style the .sidebar links and the dropdown button */
+  .sidebar a, .dropdown-btn {
+    padding: 4px 4px 4px 4px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #040404;
+    display: block;
+    border: none;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  /* On mouse-over */
+  .sidebar a:hover, .dropdown-btn:hover {
+    color: #519bf0;
+  }
+  
+  /* Main content */
+  .main {
+    margin-left: 200px; /* Same as the width of the .sidebar */
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+  }
+  
+  /* Add an active class to the active dropdown button */
+  .active {
+    background-color: green;
+    color: white;
+  }
+  
+  /* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+  .dropdown-container {
+    display: none;
+    background-color: white;
+    padding-left: 8px;
+  }
+  
+  /* Optional: Style the caret down icon */
+  .fa-caret-down {
+    float: right;
+    padding-right: 8px;
+  }
