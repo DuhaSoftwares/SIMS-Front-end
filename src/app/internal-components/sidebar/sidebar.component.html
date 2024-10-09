@@ -1,15 +1,164 @@
-
-
-<div class="sidebar" [ngClass]="{ 'wrapSidebar': !_commonService.layoutVM.sideNavExpand, 'sidebar': _commonService.layoutVM.sideNavExpand }">
-    <a routerLink="/dashboard" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i> Dashboard</a>
-    <button class="dropdown-btn" (click)="toggleDropdown()">Products <i class="fa fa-caret-down"></i></button>
-    <div class="dropdown-container" [ngStyle]="{ display: isDropdownOpen ? 'block' : 'none' }">
-        <a routerLink="product/add-product" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Add Product</a>
-        <a routerLink="product/product-list" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Product list</a>
-        <a routerLink="product/categories" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Category</a>
-        <a routerLink="product/brands" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Brands</a>
-        <a routerLink="product/units" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Units</a>
-        <a routerLink="product/variant" activeroute=""  routerLinkActive="active"><i class="fa fa-fw fa-home"></i>Variants</a>
+<div
+    class="sidebar-area bg-white active"
+    [ngClass]="{'active': isSidebarToggled}"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.dark-sidebar]="themeService.isSidebarDark()"
+    [class.right-sidebar]="themeService.isRightSidebar()"
+    [class.hide-sidebar]="themeService.isHideSidebar()"
+    [class.card-borderd-theme]="themeService.isCardBorder()"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <div class="logo bg-white">
+        <a routerLink="/" class="d-flex align-items-center">
+            <img src="../../../assets/images/logo.svg" alt="logo-icon">
+            <!-- <span class="fw-semibold">SIMS</span> -->
+        </a>
     </div>
-    <a  routerLink="/warehouse"    routerLinkActive="active"><i class="fa fa-fw fa-wrench"></i> WareHouse</a>
-  </div>
+    <div
+        (click)="toggle()"
+        class="burger-menu"
+        [ngClass]="{'active': isSidebarToggled}"
+    >
+        <span class="top-bar"></span>
+        <span class="middle-bar"></span>
+        <span class="bottom-bar"></span>
+    </div>
+    <ng-scrollbar visibility="hover">
+        <div class="sidebar-inner">
+            <div class="sidebar-menu">
+                <mat-accordion>
+                    <span class="sub-title text-body">
+                        MAIN
+                    </span>
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="material-symbols-outlined">
+                                    dashboard
+                                </i>
+                                <span class="title">
+                                    Dashboard
+                                </span>
+                                <span class="daxa-badge">
+                                    5
+                                </span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <!-- <li class="sidemenu-item">
+                                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    E-Commerce
+                                </a>
+                            </li> -->
+                        </ul>
+                        
+                    </mat-expansion-panel>
+                    <span class="sub-title text-body">
+                        APPS
+                    </span>
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <i class="material-symbols-outlined">
+                                        shopping_cart
+                                    </i>
+                                    <span class="title">
+                                        Products
+                                    </span>
+                                    <span class="daxa-badge">
+                                        6
+                                    </span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <ul class="sidebar-sub-menu">
+
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/add-products" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Add-Product
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/product-list" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                                        class="sidemenu-link">
+                                        Products-List
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/categories" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                                        class="sidemenu-link">
+                                        Categories
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/product/brands" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                                        class="sidemenu-link">
+                                        Brands
+                                    </a>
+                                </li>
+                                    <li class="sidemenu-item">
+                                        <a routerLink="/product/units" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                            Units
+                                        </a>
+                                    </li>
+                                        <li class="sidemenu-item">
+                                            <a routerLink="/product/variants" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                                Variants
+                                            </a>
+                                        </li>
+                   
+                            </ul>
+                        
+                        </mat-expansion-panel>
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <i class="material-symbols-outlined">
+                                        people
+                                    </i>
+                                    <span class="title">
+                                        People
+                                    </span>
+                                    <span class="daxa-badge">
+                                        2
+                                    </span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <ul class="sidebar-sub-menu">
+                        
+                                <li class="sidemenu-item">
+                                    <a routerLink="/people/customer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                                        class="sidemenu-link">
+                                        Customer
+                                    </a>
+                                </li>
+                                <li class="sidemenu-item">
+                                    <a routerLink="/people/suplier" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                                        class="sidemenu-link">
+                                        Suplier
+                                    </a>
+                                </li>
+                        
+                            </ul>
+                        
+                        </mat-expansion-panel>
+                    <a routerLink="/warehouse" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            factory
+                        </i>
+                        <span class="title">
+                            Warehouse
+                        </span>
+                    </a>
+              
+                    <a routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            logout
+                        </i>
+                        <span class="title">Logout</span>
+                    </a>
+                </mat-accordion>
+            </div>
+        </div>
+    </ng-scrollbar>
+</div>

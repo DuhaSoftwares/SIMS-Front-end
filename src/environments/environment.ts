@@ -8,8 +8,8 @@ export const environment = {
   apiResponseCacheTimeoutInMinutes: 5,
   enableResponseCacheProcessing: true,
   applicationVersion: '0.0.1',
-  // apiBaseUrl: 'http://localhost:3000/',
-  apiBaseUrl: 'http://thelightapi.com/',
+  // apiBaseUrl: 'http://thelightapi.com/',
+  apiBaseUrl: 'https://localhost:44360/',
   apiDefaultTimeout: 10,
   LoggingInfo: {
     cacheLogs: true,

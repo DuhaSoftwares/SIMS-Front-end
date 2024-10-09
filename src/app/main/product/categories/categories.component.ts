@@ -6,10 +6,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { CommonService } from '../../../services/common.service';
 import { LogHandlerService } from '../../../services/log-handler.service';
-import { CategoriesViewModel } from '../../../models/view/end-user/categories.viewmodel';
 import { PageEvent } from '@angular/material/paginator';
-import { CategoryService } from '../../../services/category.service';
+import { CategoryService } from '../../../services/product-services/category.service';
 import { ProductCategorySM } from '../../../models/service-models/app/v1/product-category-s-m';
+import { CategoriesViewModel } from '../../../models/view/end-user/product/categories.viewmodel';
 @Component({
   selector: 'app-categories',
   standalone: true,

@@ -12,8 +12,11 @@
           <mat-card-content>
             <form [formGroup]="brandForm" (ngSubmit)="onSubmit()">
               <!-- image upload -->
+               <div class="form-group">
                <input class="file-uploader" type="file" accept=".png,.jpg,.jpeg,.jpe,.jfif,.JPG,.PNG,.JPEG,.JPE,.JFIF,.BMP,.bmp" (change)="onFileChange($event)">
-              <!-- Brand Name Section -->
+            </div>
+               <!-- Brand Name Section -->
+
               <div class="form-group mt-3">
                 <label class="main-label d-block mb-13 lh-1 text-black"
                   >Brand Name</label
@@ -46,40 +49,86 @@
       </div>
     </div>
     <div class="col-lg-8">
-            <table class="table table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <th scope="col" class="fw-medium text-black">ID</th>
-                  <th scope="col" class="fw-medium text-black">Name</th>
-                  <th scope="col" class="fw-medium text-black">Image</th>
-                  <th scope="col" class="fw-medium text-black">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let brand of viewModel.brands">
-                  <td class="text-body">{{ brand.id }}</td>
-                  <td>{{ brand.name }}</td>
-                  <td class="text-body">
-                    <div class="info d-flex align-items-center">
-                      <div class="image">
-                        <img *ngIf="!brand.imagePath" src="https://thumbs.dreamstime.com/b/blog-computer-tablet-cloud-text-work-desk-47237130.jpg" alt="blog-image" height="40" width="40" loading="lazy">
-                        <img *ngIf="brand.imagePath" [src]="'data:image/jpeg;base64,' +brand.imagePath" alt="brand-image" loading="lazy">
-                      </div>
-                    </div>
-                  </td>
-                  <td class="action-info d-flex align-items-center justify-content-between">        
-                        <i class="fa fa-pencil" (click)="getBrandById(brand.id)"></i>
-                        <i class="fa fa-trash" (click)="deleteBrandById(brand.id)"></i>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          <mat-paginator
-            [length]="viewModel.pagination.totalCount"
-            [pageSizeOptions]="[5, 10, 20]"
-            [pageSize]="10"
-            showFirstLastButtons
-            (page)="onPageChange($event)">
-          </mat-paginator>
+<mat-card class="daxa-card top-instructors-card mb-25 border-radius bg-white border-none d-block"
+  [class.rtl-enabled]="themeService.isRTLEnabled()">
+  <mat-card-header>
+    <mat-card-title>
+      <h5 class="mt-0 mb-0">
+        Top Brands
+      </h5>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <button type="button" mat-button class="card-header-menu-btn" [matMenuTriggerFor]="cardHeaderMenu">
+        This Week
+      </button>
+      <mat-menu #cardHeaderMenu="matMenu" class="card-header-menu" xPosition="before">
+        <button mat-menu-item>
+          This Day
+        </button>
+        <button mat-menu-item>
+          This Week
+        </button>
+        <button mat-menu-item>
+          This Month
+        </button>
+        <button mat-menu-item>
+          This Year
+        </button>
+      </mat-menu>
+    </mat-card-subtitle>
+  </mat-card-header>
+<mat-card-content>
+  <div class="top-instructors-table">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="viewModel.brands">
+        <!-- Brand Column -->
+        <ng-container matColumnDef="brand">
+          <th mat-header-cell *matHeaderCellDef> Brand </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="user-info d-flex align-items-center">
+              <!-- Image with null check -->
+              <div class="image">
+                <img *ngIf="element.imagePath; else noImage" [src]="getImageSrc(element.imagePath)"
+                  alt="{{ element.name }}-image">
+                <ng-template #noImage>
+                  <img src="assets/images/admin.png" alt="default-image" height="50" width="50" class="rounded-circle">
+                </ng-template>
+              </div>
+              <div class="info">
+                <span class="name text-black d-block">{{ element.name }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Product Count Column -->
+        <ng-container  matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let element">
+              <i class="material-symbols-outlined" (click)="getBrandById(element.id)" >
+                edit
+              </i>
+              <i class="material-symbols-outlined" (click)="deleteBrandById(element.id)">
+                delete
+              </i>
+          </td>
+        </ng-container>
+
+        <!-- Defining Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator [length]="viewModel.pagination.totalCount" [pageSizeOptions]="[5, 10, 20]" [pageSize]="10"
+      showFirstLastButtons (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</mat-card-content>
+
+</mat-card>
+       
   </div>
 </div>

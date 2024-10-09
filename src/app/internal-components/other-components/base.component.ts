@@ -66,8 +66,6 @@ export class BaseComponent<T>   {
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
         XLSX.writeFile(wb,`${tableId}.xlsx`);
     }
-
-    
     // async show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
     //     this.toasts.push({ textOrTpl, ...options });
     // }

@@ -60,7 +60,7 @@ export class PaginationComponent extends BaseComponent<PaginationViewModel> impl
     logService: LogHandlerService
   ) {
     super(commonService, logService);
-    this.viewModel = { PageNo: 1, PageSize: 10, totalCount: 0, totalPages: [] };
+    // this.viewModel = { PageNo: 1, PageSize: 10, totalCount: 0, totalPages: [] };
   }
 
   ngOnInit(): void {

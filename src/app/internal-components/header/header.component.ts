@@ -1,14 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToggleService } from '../sidebar/toggle.service';
 import { CustomizerSettingsService } from '../customizer-settings/customizer-settings.service';
 import { NgClass } from '@angular/common';
-import { BaseComponent } from '../other-components/base.component';
-import { SideNavViewModel } from '../../models/view/end-user/sideNav.viewmodel';
-import { CommonService } from '../../services/common.service';
-import { LogHandlerService } from '../../services/log-handler.service';
+import { StorageService } from '../../services/storage.service';
+import { AppConstants } from '../../app-constants';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -16,14 +14,98 @@ import { LogHandlerService } from '../../services/log-handler.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent extends BaseComponent<SideNavViewModel> implements OnInit {
-    constructor( commonService:CommonService,exceptionHandler:LogHandlerService,private sidebarService: ToggleService) {
-      super(commonService,exceptionHandler)
+export class HeaderComponent {
+   // isSidebarToggled
+   isSidebarToggled = false;
+
+   // isToggled
+   isToggled = false;
+ 
+   constructor(
+       private toggleService: ToggleService,
+       public themeService: CustomizerSettingsService,
+       private storageService: StorageService,
+       private router:Router
+   ) {
+       this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
+           this.isSidebarToggled = isSidebarToggled;
+       });
+       this.themeService.isToggled$.subscribe(isToggled => {
+           this.isToggled = isToggled;
+       });
+   }
+ 
+   // Burger Menu Toggle
+   toggle() {
+       this.toggleService.toggle();
+   }
+ 
+   // Header Sticky
+   isSticky: boolean = false;
+   @HostListener('window:scroll', ['$event'])
+   checkScroll() {
+       const scrollPosition = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+       if (scrollPosition >= 50) {
+           this.isSticky = true;
+       } else {
+           this.isSticky = false;
+       }
+   }
+ 
+   // Dark Mode
+   toggleTheme() {
+       this.themeService.toggleTheme();
+   }
+ 
+   // Sidebar Dark
+   toggleSidebarTheme() {
+       this.themeService.toggleSidebarTheme();
+   }
+ 
+   // Right Sidebar
+   toggleRightSidebarTheme() {
+       this.themeService.toggleRightSidebarTheme();
+   }
+ 
+   // Hide Sidebar
+   toggleHideSidebarTheme() {
+       this.themeService.toggleHideSidebarTheme();
+   }
+ 
+   // Header Dark Mode
+   toggleHeaderTheme() {
+       this.themeService.toggleHeaderTheme();
+   }
+ 
+   // Card Border
+   toggleCardBorderTheme() {
+       this.themeService.toggleCardBorderTheme();
+   }
+ 
+   // RTL Mode
+   toggleRTLEnabledTheme() {
+       this.themeService.toggleRTLEnabledTheme();
+   }
+  
+      async logoutUser() {
+    try {
+      this.storageService.removeFromSessionStorage(AppConstants.DATABASE_KEYS.ACCESS_TOKEN);
+      this.storageService.removeFromSessionStorage(AppConstants.DATABASE_KEYS.LOGIN_USER);
+      this.storageService.removeFromSessionStorage(AppConstants.DATABASE_KEYS.COMPANY_CODE);
+      this.storageService.removeFromSessionStorage(AppConstants.DATABASE_KEYS.REMEMBER_PWD);
+      this.router.navigate(["authentication/logout"]);
     }
-  ngOnInit(): void {
-    
+    catch (err) {
+      this.storageService.clearSessionStorage();
+    }
+    try {
+      this.storageService.removeFromStorage(AppConstants.DATABASE_KEYS.ACCESS_TOKEN);
+      this.storageService.removeFromStorage(AppConstants.DATABASE_KEYS.LOGIN_USER);
+      this.storageService.removeFromStorage(AppConstants.DATABASE_KEYS.COMPANY_CODE);
+      this.storageService.removeFromStorage(AppConstants.DATABASE_KEYS.REMEMBER_PWD);
+      this.router.navigate(["login"]);
+    } catch (error) {
+      this.storageService.clearStorage();
+    }
   }
-    toggleSidebar() {
-      this._commonService.layoutVM.sideNavExpand = !this._commonService.layoutVM.sideNavExpand;
-    }
 }

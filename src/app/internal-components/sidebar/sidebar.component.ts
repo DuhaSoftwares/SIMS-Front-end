@@ -1,49 +1,80 @@
-import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { NgClass } from '@angular/common';
+import { Component } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ToggleService } from './toggle.service';
-import { SharedModule } from '../../shared/shared.module';
-import { BaseComponent } from '../other-components/base.component';
-import { SideNavViewModel } from '../../models/view/end-user/sideNav.viewmodel';
-import { CommonService } from '../../services/common.service';
-import { LogHandlerService } from '../../services/log-handler.service';
+import { CustomizerSettingsService } from '../customizer-settings/customizer-settings.service';
+
 
 @Component({
   selector: 'app-sidebar',
+  standalone: true,
+  imports: [NgScrollbarModule, MatExpansionModule, RouterLinkActive, RouterModule, RouterLink, NgClass],
   templateUrl: './sidebar.component.html',
-  standalone:true,
-  imports:[SharedModule],
-  styleUrls: ['./sidebar.component.scss']
-
+  styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent extends BaseComponent<SideNavViewModel> implements OnInit {
+export class SidebarComponent {
 
+  // isSidebarToggled
+  isSidebarToggled = false;
 
-  isSidebarVisible = true;
-  isSubmenuOpen = false;
-  isDashboardSelected = false;
-   headerwrapper:string=''
+  // isToggled
+  isToggled = false;
 
-  constructor(commonService:CommonService,exceptionHandler:LogHandlerService,private sidebarService: ToggleService) {
-    super(commonService,exceptionHandler)
-  }
-  isDropdownOpen = false;
-  ngOnInit() {
-  }
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-  isSidebarCollapsed = false;
-  isSidebarExpanded = false;
-
-  toggleSidebar() {
-    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  constructor(
+      private toggleService: ToggleService,
+      public themeService: CustomizerSettingsService
+  ) {
+      this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
+          this.isSidebarToggled = isSidebarToggled;
+      });
+      this.themeService.isToggled$.subscribe(isToggled => {
+          this.isToggled = isToggled;
+      });
   }
 
-  expandSidebar() {
-    this.isSidebarExpanded = true;
+  // Burger Menu Toggle
+  toggle() {
+      this.toggleService.toggle();
   }
 
-  collapseSidebar() {
-    this.isSidebarExpanded = false;
+  // Mat Expansion
+  panelOpenState = false;
+
+  // Dark Mode
+  toggleTheme() {
+      this.themeService.toggleTheme();
   }
+
+  // Sidebar Dark
+  toggleSidebarTheme() {
+      this.themeService.toggleSidebarTheme();
+  }
+
+  // Right Sidebar
+  toggleRightSidebarTheme() {
+      this.themeService.toggleRightSidebarTheme();
+  }
+
+  // Hide Sidebar
+  toggleHideSidebarTheme() {
+      this.themeService.toggleHideSidebarTheme();
+  }
+
+  // Header Dark Mode
+  toggleHeaderTheme() {
+      this.themeService.toggleHeaderTheme();
+  }
+
+  // Card Border
+  toggleCardBorderTheme() {
+      this.themeService.toggleCardBorderTheme();
+  }
+
+  // RTL Mode
+  toggleRTLEnabledTheme() {
+      this.themeService.toggleRTLEnabledTheme();
+  }
+
 }

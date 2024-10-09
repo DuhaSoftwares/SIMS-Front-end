@@ -2,19 +2,19 @@
   &.daxa-card {
     &.users-card {
       .mat-mdc-card-content {
-        .users-table {
+        .top-instructors-table{
           margin: {
             left: -10px;
             right: -10px;
           }
-          max-height: 60vh; // Set the max height for scrolling
+          max-height: 60vh !important; // Set the max height for scrolling
           overflow-y: auto; // Enable vertical scrolling
           display: block; // Ensure the container behaves as a block element
 
           table {
             width: 100%;
             border-spacing: 0;
-
+            height: 55vh !important;
             thead {
               tr {
                 th {
@@ -273,13 +273,22 @@
     }
   }
 }
+.file-uploader {
+  max-width: 265px;
+}
 
 /* Min width 768px to Max width 991px */
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+  .file-uploader {
+      max-width: 265px;
+    }
 }
 
 /* Min width 992px to Max width 1199px */
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .file-uploader {
+      max-width: 265px;
+    }
 }
 
 /* Min width 1200px to Max width 1399px */

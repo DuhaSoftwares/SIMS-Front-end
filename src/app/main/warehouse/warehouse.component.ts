@@ -56,7 +56,6 @@ export class WarehouseComponent
     try {
       this._commonService.presentLoading();
       await this.getTotatWareHouseCount();  // Assuming this method exists
-
       const resp = await this.warehouseService.getAllWareHouses(this.viewModel);
       if (resp.isError) {
         this._commonService.showSweetAlertConfirmation({

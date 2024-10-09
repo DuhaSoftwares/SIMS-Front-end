@@ -28,7 +28,7 @@ export class AccountsClient extends BaseApiClient {
      */
     GenerateToken = async (tokenRequestSM: ApiRequest<TokenRequestSM>): Promise<ApiResponse<TokenResponseSM>> => {
         let resp = await this.GetResponseAsync<TokenRequestSM, TokenResponseSM>
-            (`${AppConstants.API_ENDPOINTS.AUTH_URL}ValidateLoginAndGenerateToken`, 'POST', tokenRequestSM,
+            (`${AppConstants.API_ENDPOINTS.AUTH_URL}/ValidateLoginAndGenerateToken`, 'POST', tokenRequestSM,
                 new AdditionalRequestDetails<TokenResponseSM>(false, Authentication.false));
         return resp;
     }

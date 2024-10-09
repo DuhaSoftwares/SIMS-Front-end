@@ -39,25 +39,18 @@ export const routes: Routes = [
    allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
   },
 },
-{ path: '', loadChildren: () => import('./main/product/product.module').then(m => m.ProductModule), canActivate: [AuthGuard],
-  data: {
- allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
-},
-},
-{ path: '', redirectTo: '/product', pathMatch: 'full' },
-  {path: '**', component: NotFoundComponent}
-  // {
-  //   path: "dashboard",
-  //   component: DashboardComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {
-  //     allowedRole: [RoleTypeSM.ClientAdmin, RoleTypeSM.ClientEmployee],
-  //     moduleName: ModuleNameSM.DashBoard,
-  //     permissionType: [PermissionType.view]
+  {
+    path: '', loadChildren: () => import('./main/product/product.module').then(m => m.ProductModule), canActivate: [AuthGuard],
+    data: {
+      allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+    }
+  },
+  { path: '', loadChildren: () => import('./main/people/people.module').then(m => m.PeopleModule), canActivate: [AuthGuard],
+    data: {
+      allowedRole: [RoleTypeSM.SystemAdmin, RoleTypeSM.SuperAdmin, RoleTypeSM.CompanyAdmin]
+    } },
 
-  //   },
-  // },
-  // { path: '**', pathMatch: 'full', component: NotFoundComponent },
+  { path: '**', pathMatch: 'full', component: NotFoundComponent },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

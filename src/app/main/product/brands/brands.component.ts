@@ -1,24 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { FileUploadModule } from '@iplab/ngx-file-upload';
 import { CustomizerSettingsService } from '../../../internal-components/customizer-settings/customizer-settings.service';
 import { CommonService } from '../../../services/common.service';
 import { LogHandlerService } from '../../../services/log-handler.service';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatTableModule } from '@angular/material/table';
 import { BaseComponent } from '../../../internal-components/other-components/base.component';
-import { BrandViewModel } from '../../../models/view/end-user/brand.viewmodel';
-import { BrandService } from '../../../services/brand.service';
+import { BrandService } from '../../../services/product-services/brand.service';
 import { BrandSM } from '../../../models/service-models/app/v1/brand-s-m';
-import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { BrandViewModel } from '../../../models/view/end-user/product/brand.viewmodel';
 
 @Component({
   selector: 'app-brands',
@@ -41,6 +31,7 @@ export class BrandsComponent
     super(commonService, logHandlerService);
     this.viewModel = new BrandViewModel();
   }
+    displayedColumns: string[] = ['brand', 'Action'];
   brandForm!: FormGroup;
   ngOnInit(): void {
     this.loadPageData();
@@ -73,11 +64,33 @@ export class BrandsComponent
         });
       } else {
         this.viewModel.brands = resp.successData;
+        console.log(this.viewModel.brands)
       }
     } catch (error) {
       throw error;
     } finally {
       this._commonService.dismissLoader();
+    }
+  }
+    // Helper method to determine correct image MIME type
+  getImageSrc(imagePath: string | null): string {
+    if (!imagePath) {
+      return 'assets/default-image.png'; // Fallback to default image if no path is available
+    }
+
+    // Check for extension in the imagePath and construct the appropriate data URL
+    const extension = imagePath.split('.').pop()?.toLowerCase();
+
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return `data:image/jpeg;base64,${imagePath}`;
+      case 'png':
+        return `data:image/png;base64,${imagePath}`;
+      case 'webp':
+        return `data:image/webp;base64,${imagePath}`;
+      default:
+        return `data:image/jpeg;base64,${imagePath}`; // Default to jpeg if the extension is not identified
     }
   }
   async getTotatBrandsCount() {
@@ -125,7 +138,7 @@ export class BrandsComponent
     try {
       this._commonService.presentLoading();
       const result = await this._commonService.showSweetAlertConfirmation({
-        text: 'Are you sure you want to delete this warehouse?',
+        text: 'Are you sure you want to delete this brand?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, delete it!',
