@@ -1,8 +1,9 @@
 import { NgForm, NgModel } from "@angular/forms";
-import { CommonService } from "../../services/common.service";
-import { LogHandlerService } from "../../services/log-handler.service";
-import { InputControlInformation } from "../../models/internal/common-models";
-import { PaginationViewModel } from "../../models/internal/pagination.viewmodel";
+import { InputControlInformation } from "src/app/models/internal/common-models";
+import { PaginationViewModel } from "src/app/models/internal/pagination.viewmodel";
+import { CommonService } from "src/app/services/common.service";
+import { LogHandlerService } from "src/app/services/log-handler.service";
+
 import * as XLSX from 'xlsx';
 
 

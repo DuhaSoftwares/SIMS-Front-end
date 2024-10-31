@@ -1,20 +1,15 @@
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { CustomizerSettingsService } from '../../../internal-components/customizer-settings/customizer-settings.service';
 
 @Component({
     selector: 'app-sign-up',
     standalone: true,
-    imports: [RouterLink, MatFormFieldModule, MatInputModule, MatButtonModule, MatCheckboxModule, ReactiveFormsModule, NgIf],
+    imports: [RouterLink, ReactiveFormsModule, NgIf],
     templateUrl: './sign-up.component.html',
-    styleUrl: './sign-up.component.scss'
+    styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
 
@@ -24,16 +19,13 @@ export class SignUpComponent {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        public themeService: CustomizerSettingsService
     ) {
         this.authForm = this.fb.group({
             name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
         });
-        this.themeService.isToggled$.subscribe(isToggled => {
-            this.isToggled = isToggled;
-        });
+
     }
 
     // Password Hide
@@ -49,19 +41,5 @@ export class SignUpComponent {
         }
     }
 
-    // Dark Mode
-    toggleTheme() {
-        this.themeService.toggleTheme();
-    }
-
-    // Card Border
-    toggleCardBorderTheme() {
-        this.themeService.toggleCardBorderTheme();
-    }
-
-    // RTL Mode
-    toggleRTLEnabledTheme() {
-        this.themeService.toggleRTLEnabledTheme();
-    }
 
 }

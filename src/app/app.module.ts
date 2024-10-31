@@ -11,6 +11,7 @@ import { SideNavComponent } from './components/internal/side-nav/side-nav.compon
 import { FooterComponent } from './components/internal/footer/footer.component';
 import { DashboardComponent } from './components/main/dashboard/dashboard.component';
 import { ControlSidebarComponent } from './components/internal/control-sidebar/control-sidebar.component';
+import { NotFoundComponent } from './components/internal/not-found/not-found.component';
 
 
 
@@ -22,6 +23,7 @@ import { ControlSidebarComponent } from './components/internal/control-sidebar/c
     FooterComponent,
     DashboardComponent,
     ControlSidebarComponent,
+    NotFoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule,CommonModule,FormsModule],
   providers: [],
