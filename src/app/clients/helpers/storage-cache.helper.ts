@@ -6,9 +6,9 @@ import * as Flatted from 'flatted';
 import { CommonLogger } from './common-logger.helper';
 import { StorageService } from '../../services/storage.service';
 import { ApiResponse } from '../../models/service-models/foundation/api-contracts/base/api-response';
-import { environment } from '../../../environments/environment';
 import { CacheItem } from '../../models/internal/cache-item';
 import { AppConstants } from '../../app-constants';
+import { environment } from 'src/environments/environment';
 
 
 

@@ -1,4 +1,4 @@
-import { environment } from "../../../environments/environment";
+import { environment } from "src/environments/environment";
 import { AppConstants } from "../../app-constants";
 import { LogLocation } from "../../models/internal/log-location";
 import { LogType } from "../../models/internal/log-type";

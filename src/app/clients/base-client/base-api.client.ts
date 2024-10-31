@@ -9,7 +9,6 @@ import { CommonUtils } from '../helpers/common-utils.helper';
 import { StorageService } from '../../services/storage.service';
 import { StorageCache } from '../helpers/storage-cache.helper';
 import { ApiResponse } from '../../models/service-models/foundation/api-contracts/base/api-response';
-import { environment } from '../../../environments/environment';
 import { AppConstants } from '../../app-constants';
 import { ApiRequest } from '../../models/service-models/foundation/api-contracts/base/api-request';
 import { IDictionaryCollection } from '../../models/internal/Idictionary-collection';
@@ -17,6 +16,7 @@ import { DictionaryCollection } from '../../models/internal/dictionary-collectio
 import { ErrorData } from '../../models/service-models/foundation/api-contracts/error-data';
 import { ApiErrorTypeSM } from '../../models/service-models/foundation/enums/api-error-type-s-m.enum';
 import { QueryFilter } from '../../models/service-models/foundation/api-contracts/query-filter';
+import { environment } from 'src/environments/environment';
 
 
 export abstract class BaseApiClient extends BaseAjaxClient {

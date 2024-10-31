@@ -1,22 +1,30 @@
-// app.module.ts
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing.module';
 
-import { SharedModule } from './shared/shared.module';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './components/internal/header/header.component';
+import { SideNavComponent } from './components/internal/side-nav/side-nav.component';
+import { FooterComponent } from './components/internal/footer/footer.component';
+import { DashboardComponent } from './components/main/dashboard/dashboard.component';
+import { ControlSidebarComponent } from './components/internal/control-sidebar/control-sidebar.component';
+
+
 
 @NgModule({
   declarations: [
+    AppComponent,
+    HeaderComponent,
+    SideNavComponent,
+    FooterComponent,
+    DashboardComponent,
+    ControlSidebarComponent,
   ],
-  imports: [
-    BrowserModule, AppRoutingModule, SharedModule,
-  ],
-  providers: [
-    provideAnimationsAsync()
-  ],
-  // bootstrap: [AppComponent,] // Ensure AppComponent is set as the bootstrap component
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule,CommonModule,FormsModule],
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

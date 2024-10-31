@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import *  as CryptoJS from 'crypto-js';
+import * as CryptoJS from 'crypto-js';
 import { QueryFilter } from '../models/service-models/foundation/api-contracts/query-filter';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
